@@ -20,20 +20,16 @@ public class Student {
     private Long id;
     private String name;
     private String email;
-
-    public Student(String email) {
-        this.email = email;
-    }
-
-    public Student(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
+    private Long groupId;
 
     public Student(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+    public Student(String name, String email, Long groupId) {
+        this.name = name;
+        this.email = email;
+        this.groupId = groupId;
     }
 
     public Student() {
@@ -71,5 +67,13 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 }

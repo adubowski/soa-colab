@@ -1,7 +1,7 @@
 package com.services.group_control.services;
 
 import com.services.group_control.model.Student;
-import com.services.group_control.model.StudentGroup;
+import com.services.group_control.model.StudentGroupRepository;
 import com.services.group_control.model.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,30 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final StudentGroupRepository studentGroupRepository;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, StudentGroupRepository studentGroupRepository) {
         this.studentRepository = studentRepository;
+        this.studentGroupRepository = studentGroupRepository;
     }
 
     @GetMapping
     public List<Student> getStudents() {
         return studentRepository.findAll();
+    }
+
+    public void assignStudentToGroup(Long studentId, Long groupId) {
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        if (!studentGroupRepository.existsById(groupId)) {
+            throw new IllegalStateException("Group with id " + groupId + " does not exist.");
+        }
+        if (optionalStudent.isPresent()) {
+            Student student = optionalStudent.get();
+            student.setGroupId(groupId);
+        } else {
+            throw new IllegalStateException("Student with id " + studentId + " does not exist.");
+        }
     }
 
     public void addNewStudent(Student student) {
@@ -46,7 +61,7 @@ public class StudentService {
     }
 
     @Transactional
-    public void updateStudent(Long studentId, String name, String email) {
+    public void updateStudent(Long studentId, String name, String email, Long groupId) {
         Student student = studentRepository.findById(studentId).orElseThrow(() ->
                 new IllegalStateException("No student with that Id!")
         );
@@ -61,11 +76,14 @@ public class StudentService {
             }
             student.setEmail(email);
         }
+        if (groupId != null && !Objects.equals(student.getGroupId(), groupId)) {
+            student.setGroupId(groupId);
+        }
     }
 
     public Optional<Student> getStudentById(Long id) {
         if (!studentRepository.existsById(id)) {
-            throw new IllegalStateException("Student with id " + id + "exists");
+            throw new IllegalStateException("Student with id " + id + " does not exist");
         } else {
             return studentRepository.findById(id);
         }

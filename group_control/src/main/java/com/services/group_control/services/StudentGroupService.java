@@ -59,6 +59,7 @@ public class StudentGroupService {
         } else {
             throw new IllegalStateException("You need to provide a name for the group");
         }
+
     }
 
 }
