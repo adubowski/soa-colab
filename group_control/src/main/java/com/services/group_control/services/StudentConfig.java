@@ -1,0 +1,31 @@
+package com.services.group_control.services;
+
+import com.services.group_control.model.Student;
+import com.services.group_control.model.StudentRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import java.util.List;
+
+@Configuration
+public class StudentConfig {
+
+    @Bean
+    CommandLineRunner studentCLRunner(StudentRepository repository) {
+        return args -> {
+            Student adam = new Student(
+                    "Adam",
+                    "matthijs@gmail.com"
+            );
+
+            Student matthijs = new Student(
+                    "Matthijs",
+                    "matthijs@gmail.com"
+            );
+
+            repository.saveAll(
+                    List.of(adam, matthijs)
+            );
+        };
+    }
+}
