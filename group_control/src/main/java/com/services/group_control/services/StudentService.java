@@ -1,6 +1,7 @@
 package com.services.group_control.services;
 
 import com.services.group_control.model.Student;
+import com.services.group_control.model.StudentGroup;
 import com.services.group_control.model.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,14 @@ public class StudentService {
                 throw new IllegalStateException("Email taken!");
             }
             student.setEmail(email);
+        }
+    }
+
+    public Optional<Student> getStudentById(Long id) {
+        if (!studentRepository.existsById(id)) {
+            throw new IllegalStateException("Student with id " + id + "exists");
+        } else {
+            return studentRepository.findById(id);
         }
     }
 }

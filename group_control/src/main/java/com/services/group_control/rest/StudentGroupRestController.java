@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/group")
@@ -19,22 +20,27 @@ public class StudentGroupRestController {
     }
 
     @GetMapping
-    public List<StudentGroup> getStudents() {
+    public List<StudentGroup> getGroups() {
         return studentGroupService.getGroups();
     }
 
+    @GetMapping(path= "{groupId}")
+    public Optional<StudentGroup> getGroupById(@PathVariable("groupId") Long id) {
+        return studentGroupService.getGroupById(id);
+    }
+
     @PostMapping
-    public void registerNewStudent(@RequestBody StudentGroup studentGroup) {
+    public void registerNewStudentGroup(@RequestBody StudentGroup studentGroup) {
         studentGroupService.addNewGroup(studentGroup);
     }
 
     @DeleteMapping(path="{groupId}")
-    public void deleteStudent(@PathVariable("groupId") Long id) {
+    public void deleteStudentGroup(@PathVariable("groupId") Long id) {
         studentGroupService.deleteGroup(id);
     }
 
     @PutMapping(path="{groupId}")
-    public void updateStudent(
+    public void updateStudentGroup(
             @PathVariable("groupId") Long groupId,
             @RequestParam(required = false) String name) {
         studentGroupService.updateGroup(groupId, name);

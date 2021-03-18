@@ -5,10 +5,10 @@ import com.services.group_control.model.StudentGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class StudentGroupService {
@@ -20,9 +20,16 @@ public class StudentGroupService {
         this.studentGroupRepository = studentGroupRepository;
     }
 
-    @GetMapping
     public List<StudentGroup> getGroups() {
         return studentGroupRepository.findAll();
+    }
+
+    public Optional<StudentGroup> getGroupById(Long id) {
+        if (!studentGroupRepository.existsById(id)) {
+            throw new IllegalStateException("Group with Id " + id + " does not exist.");
+        } else {
+            return studentGroupRepository.findById(id);
+        }
     }
 
     public void addNewGroup(StudentGroup studentGroup) {
