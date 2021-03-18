@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-  dwh:
+  group_control_db:
     image: postgres:11.6
-    container_name: dwh
+    container_name: group_control_db
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=group_control
