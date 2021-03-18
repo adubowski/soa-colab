@@ -6,7 +6,7 @@ import nl.utwente.soa.group_control.model.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +25,6 @@ public class StudentService {
         this.studentGroupRepository = studentGroupRepository;
     }
 
-    @GetMapping
     public List<Student> getStudents() {
         return studentRepository.findAll();
     }

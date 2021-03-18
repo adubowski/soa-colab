@@ -18,14 +18,9 @@ public class StudentGroup {
             generator = "group_sequence"
     )
     private Long id;
+
     @Column
     private String name;
-
-
-    public StudentGroup(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public StudentGroup(String name) {
         this.name = name;
