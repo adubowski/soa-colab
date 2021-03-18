@@ -1,8 +1,8 @@
-package com.services.group_control.rest;
+package nl.utwente.soa.group_control.rest;
 
 
-import com.services.group_control.model.StudentGroup;
-import com.services.group_control.services.StudentGroupService;
+import nl.utwente.soa.group_control.model.StudentGroup;
+import nl.utwente.soa.group_control.services.StudentGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

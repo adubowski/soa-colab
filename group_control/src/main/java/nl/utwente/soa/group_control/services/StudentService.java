@@ -1,8 +1,8 @@
-package com.services.group_control.services;
+package nl.utwente.soa.group_control.services;
 
-import com.services.group_control.model.Student;
-import com.services.group_control.model.StudentGroupRepository;
-import com.services.group_control.model.StudentRepository;
+import nl.utwente.soa.group_control.model.Student;
+import nl.utwente.soa.group_control.model.StudentGroupRepository;
+import nl.utwente.soa.group_control.model.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

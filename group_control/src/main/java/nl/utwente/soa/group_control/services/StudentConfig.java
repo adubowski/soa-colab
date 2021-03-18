@@ -1,7 +1,7 @@
-package com.services.group_control.services;
+package nl.utwente.soa.group_control.services;
 
-import com.services.group_control.model.Student;
-import com.services.group_control.model.StudentRepository;
+import nl.utwente.soa.group_control.model.Student;
+import nl.utwente.soa.group_control.model.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

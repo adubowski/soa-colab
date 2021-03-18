@@ -1,4 +1,4 @@
-package com.services.group_control;
+package nl.utwente.soa.group_control;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.services.group_control.model;
+package nl.utwente.soa.group_control.model;
 
 
 import javax.persistence.*;

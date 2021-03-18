@@ -1,4 +1,4 @@
-package com.services.group_control;
+package nl.utwente.soa.group_control;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
