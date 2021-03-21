@@ -1,5 +1,6 @@
 package nl.utwente.soa.workdistributor.model;
 
+
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,50 +11,46 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-// Lombok generates getters and setters
 @Getter
 @Setter
-// Entity and Tabel are used by JPA to generate a Goal table based on this java class
-@Entity // used by Hibernate (JPA is an abstraction on Hibernate)
+@Entity
 @Table
-public class Goal {
+public class Project {
 
   @Id
   @SequenceGenerator(
-      name = "goal_sequence",
-      sequenceName = "goal_sequence",
+      name = "project_sequence",
+      sequenceName = "project_sequence",
       allocationSize = 1
   )
   @GeneratedValue(
       strategy = GenerationType.SEQUENCE,
-      generator = "goal_sequence"
+      generator = "project_sequence"
   )
   private Long id;
+  private Long studentGroupID;
   private String name;
   private String description;
   private Date deadline;
-  private Long projectId;
   private Boolean completed;
 
-  public Goal() {
+  public Project() {
   }
 
-  public Goal(String name, String description, Date deadline, Long projectId, Boolean completed) {
+  public Project(Long studentGroupID, String name, String description, Date deadline, Boolean completed) {
+    this.studentGroupID = studentGroupID;
     this.name = name;
     this.description = description;
     this.deadline = deadline;
-    this.projectId = projectId;
     this.completed = completed;
   }
 
-  public Goal(Long id, String name, String description, Date deadline, Long projectId, Boolean completed) {
+  public Project(Long id, Long studentGroupID, String name, String description, Date deadline, Boolean completed) {
     this.id = id;
+    this.studentGroupID = studentGroupID;
     this.name = name;
     this.description = description;
     this.deadline = deadline;
-    this.projectId = projectId;
     this.completed = completed;
   }
-
-
 }
