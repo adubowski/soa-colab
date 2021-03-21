@@ -1,0 +1,25 @@
+version: '3'
+services:
+  lb:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on:
+      - group_control
+      - work_distributor
+      - scheduler
+      - meeting_handler
+  group_control:
+    build:
+      context: ./group_control
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8080"
+  work_distributor:
+    build:
+      context: ./work_distributor
+      dockerfile: Dockerfile
+    ports:
+      - "8282:8080"
