@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  meeting_handler_db:
+    image: postgres:11.6
+    container_name: meeting_handler_db
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=meeting_handler
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+
+volumes:
+  postgresdata:
