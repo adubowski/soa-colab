@@ -1,16 +1,14 @@
-package nl.utwente.soa.workdistributor.services;
+package nl.utwente.soa.taskservice.services;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.transaction.Transactional;
-import nl.utwente.soa.workdistributor.access.TaskRepository;
-import nl.utwente.soa.workdistributor.model.Goal;
-import nl.utwente.soa.workdistributor.model.Project;
-import nl.utwente.soa.workdistributor.model.Task;
+import nl.utwente.soa.taskservice.access.TaskRepository;
+import nl.utwente.soa.taskservice.model.Goal;
+import nl.utwente.soa.taskservice.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

@@ -1,3 +1,7 @@
+/**
+ * IMPORTANT: THIS CLASS IS DEPRECATED!
+ */
+
 package nl.utwente.soa.workdistributor.web;
 
 import java.util.Date;
@@ -20,7 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+/**
+ * IMPORTANT: THIS CLASS IS DEPRECATED!
+ */
+
+//@RestController
 @RequestMapping(path = "api/v1/projects")
 public class Controller {
 

@@ -1,4 +1,4 @@
-package nl.utwente.soa.workdistributor.model;
+package nl.utwente.soa.taskservice.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
