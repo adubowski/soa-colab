@@ -18,16 +18,19 @@ import org.springframework.web.client.RestTemplate;
 public class TaskService {
 
   private final TaskRepository taskRepository;
-  @Autowired private JmsTemplate jmsTemplate;
-  @Value("${goalservice.port}") private String goalPort;
-  @Value("${ActiveMQ.queue.test}") private String testQueue;
+  @Autowired
+  private JmsTemplate jmsTemplate;
+  @Value("${goalservice.port}")
+  private String goalPort;
+  @Value("${ActiveMQ.queue.test}")
+  private String testQueue;
 
   @Autowired
   public TaskService(TaskRepository taskRepository) {
     this.taskRepository = taskRepository;
   }
 
-  public List<Task> getTasks(Long projectId, Long goalId){
+  public List<Task> getTasks(Long projectId, Long goalId) {
     // throw an exception if the goal of the tasks does not exist
     try {
       // see if the goal with that goalId and projectId can be fetched from the GoalService
@@ -174,6 +177,7 @@ public class TaskService {
   // Get information from GoalService (Sync Communication)
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
+
   public Goal getGoal(Long projectId, Long goalId) {
     String url = "http://localhost:" + goalPort + "/api/v1/projects/" + projectId + "/goals/" + goalId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();

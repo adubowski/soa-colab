@@ -10,23 +10,23 @@ import java.util.List;
 @Configuration
 public class StudentConfig {
 
-    @Bean
-    CommandLineRunner studentCLRunner(StudentRepository repository) {
-        return args -> {
-            Student adam = new Student(
-                    "Adam",
-                    "adam@gmail.com",
-                    1L
-            );
+  @Bean
+  CommandLineRunner studentCLRunner(StudentRepository repository) {
+    return args -> {
+      Student adam = new Student(
+          "Adam",
+          "adam@gmail.com",
+          1L
+      );
 
-            Student matthijs = new Student(
-                    "Matthijs",
-                    "matthijs@gmail.com"
-            );
+      Student matthijs = new Student(
+          "Matthijs",
+          "matthijs@gmail.com"
+      );
 
-            repository.saveAll(
-                    List.of(adam, matthijs)
-            );
-        };
-    }
+      repository.saveAll(
+          List.of(adam, matthijs)
+      );
+    };
+  }
 }

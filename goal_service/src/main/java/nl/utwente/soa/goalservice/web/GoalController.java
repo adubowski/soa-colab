@@ -58,10 +58,10 @@ public class GoalController {
   @PutMapping("{goalId}")
   public void updateGoal(@PathVariable("projectId") Long projectId,
                          @PathVariable("goalId") Long goalId,
-                         @RequestParam(required=false) String name,
-                         @RequestParam(required=false) String description,
-                         @RequestParam(required=false) Date deadline,
-                         @RequestParam(required=false) Boolean completed) {
+                         @RequestParam(required = false) String name,
+                         @RequestParam(required = false) String description,
+                         @RequestParam(required = false) Date deadline,
+                         @RequestParam(required = false) Boolean completed) {
     goalService.updateGoal(projectId, goalId, name, description, deadline, completed);
   }
 }

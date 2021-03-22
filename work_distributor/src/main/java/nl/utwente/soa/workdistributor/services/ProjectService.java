@@ -24,7 +24,7 @@ public class ProjectService {
     this.projectRepository = projectRepository;
   }
 
-  public List<Project> getProjects(){
+  public List<Project> getProjects() {
     return projectRepository.findAll();
   }
 
@@ -97,6 +97,7 @@ public class ProjectService {
   // Get information from studentGroupService (Sync Communication)
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
+
   public StudentGroup getStudentGroup(Long studentGroupId) {
     String url = "http://localhost:8081/api/v1/group/" + studentGroupId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();

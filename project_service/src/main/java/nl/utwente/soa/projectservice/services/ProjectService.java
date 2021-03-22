@@ -18,15 +18,17 @@ import org.springframework.web.client.RestTemplate;
 public class ProjectService {
 
   private final ProjectRepository projectRepository;
-  @Value("${studentgroup.port}") private String studentGroupPort;
-  @Value("${goalservice.port}") private String goalsPort;
+  @Value("${studentgroup.port}")
+  private String studentGroupPort;
+  @Value("${goalservice.port}")
+  private String goalsPort;
 
   @Autowired
   public ProjectService(ProjectRepository projectRepository) {
     this.projectRepository = projectRepository;
   }
 
-  public List<Project> getProjects(){
+  public List<Project> getProjects() {
     return projectRepository.findAll();
   }
 
@@ -100,6 +102,7 @@ public class ProjectService {
   // Get information from studentGroupService (Sync Communication)
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
+
   public StudentGroup getStudentGroup(Long studentGroupId) {
     String url = "http://localhost:" + studentGroupPort + "/api/v1/group/" + studentGroupId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
@@ -113,6 +116,7 @@ public class ProjectService {
 
   @Autowired
   private RestTemplateBuilder restTemplateBuilder2;
+
   public void deleteGoalsOfProject(Long projectId) {
     String url = "http://localhost:" + goalsPort + "/api/v1/projects/" + projectId + "/goals";
     RestTemplate restTemplate = restTemplateBuilder2.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();

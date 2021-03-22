@@ -34,7 +34,7 @@ public class JmsConfiguration {
   public ActiveMQConnectionFactory activeMQConnectionFactory() {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     activeMQConnectionFactory.setBrokerURL(brokerUrl);
-    if(brokerUsername != null && !brokerUsername.isEmpty() && brokerPassword != null && !brokerPassword.isEmpty()) {
+    if (brokerUsername != null && !brokerUsername.isEmpty() && brokerPassword != null && !brokerPassword.isEmpty()) {
       activeMQConnectionFactory.setUserName(brokerUsername);
       activeMQConnectionFactory.setPassword(brokerPassword);
     }

@@ -71,10 +71,10 @@ public class Controller {
   to create projects for other student groups */
   @PutMapping(path = "{projectId}")
   public void updateProject(@PathVariable("projectId") Long projectId,
-                            @RequestParam(required=false) String name,
-                            @RequestParam(required=false) String description,
-                            @RequestParam(required=false) Date deadline,
-                            @RequestParam(required=false) Boolean completed) {
+                            @RequestParam(required = false) String name,
+                            @RequestParam(required = false) String description,
+                            @RequestParam(required = false) Date deadline,
+                            @RequestParam(required = false) Boolean completed) {
     projectService.updateProject(projectId, name, description, deadline, completed);
   }
 
@@ -109,10 +109,10 @@ public class Controller {
   @PutMapping(path = goalsURI + "/{goalId}")
   public void updateGoal(@PathVariable("projectId") Long projectId,
                          @PathVariable("goalId") Long goalId,
-                         @RequestParam(required=false) String name,
-                         @RequestParam(required=false) String description,
-                         @RequestParam(required=false) Date deadline,
-                         @RequestParam(required=false) Boolean completed) {
+                         @RequestParam(required = false) String name,
+                         @RequestParam(required = false) String description,
+                         @RequestParam(required = false) Date deadline,
+                         @RequestParam(required = false) Boolean completed) {
     goalService.updateGoal(projectId, goalId, name, description, deadline, completed);
   }
 
@@ -152,11 +152,11 @@ public class Controller {
   public void updateTask(@PathVariable("projectId") Long projectId,
                          @PathVariable("goalId") Long currentGoalId,
                          @PathVariable("taskId") Long taskId,
-                         @RequestParam(required=false) String name,
-                         @RequestParam(required=false) String description,
-                         @RequestParam(required=false) Long goalId,
-                         @RequestParam(required=false) Integer weight,
-                         @RequestParam(required=false) Boolean completed) {
+                         @RequestParam(required = false) String name,
+                         @RequestParam(required = false) String description,
+                         @RequestParam(required = false) Long goalId,
+                         @RequestParam(required = false) Integer weight,
+                         @RequestParam(required = false) Boolean completed) {
     taskService.updateTask(projectId, currentGoalId, taskId, name, description, goalId, weight, completed);
   }
 

@@ -19,14 +19,15 @@ import org.springframework.web.client.RestTemplate;
 public class TaskService {
 
   private final TaskRepository taskRepository;
-  @Autowired private JmsTemplate jmsTemplate;
+  @Autowired
+  private JmsTemplate jmsTemplate;
 
   @Autowired
   public TaskService(TaskRepository taskRepository) {
     this.taskRepository = taskRepository;
   }
 
-  public List<Task> getTasks(Long projectId, Long goalId){
+  public List<Task> getTasks(Long projectId, Long goalId) {
     List<Task> tasks = taskRepository.findAllByGoalId(goalId);
     // throw exception if one of the requested tasks' goalId or projectId doesn't match goalId or projectId in the URI
     for (Task task : tasks) {
@@ -152,6 +153,7 @@ public class TaskService {
   // Get information from GoalService (Sync Communication)
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
+
   public Goal getGoal(Long projectId, Long goalId) {
     String url = "http://localhost:8080/api/v1/projects/" + projectId + "/goals/" + goalId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();

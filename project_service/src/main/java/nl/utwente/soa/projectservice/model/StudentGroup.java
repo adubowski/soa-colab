@@ -12,7 +12,8 @@ public class StudentGroup {
   private Long id;
   private String name;
 
-  public StudentGroup() {}
+  public StudentGroup() {
+  }
 
   public StudentGroup(String name) {
     this.name = name;

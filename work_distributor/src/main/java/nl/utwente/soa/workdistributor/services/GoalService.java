@@ -25,7 +25,7 @@ public class GoalService {
     this.goalRepository = goalRepository;
   }
 
-  public List<Goal> getGoals(Long projectId){
+  public List<Goal> getGoals(Long projectId) {
     List<Goal> goals = goalRepository.findAllByProjectId(projectId);
     // throw exception if one of the requested goals' projectId doesn't match projectId in the URI
     for (Goal goal : goals) {
@@ -125,6 +125,7 @@ public class GoalService {
   // Get information from ProjectService (Sync Communication)
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
+
   public Project getProject(Long projectId) {
     String url = "http://localhost:8080/api/v1/projects/" + projectId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();

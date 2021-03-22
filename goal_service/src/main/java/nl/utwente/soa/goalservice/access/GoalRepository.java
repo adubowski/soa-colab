@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
 
-  @Query("SELECT g FROM Goal g WHERE g.name = ?1") // this line can also be commented out
+  @Query("SELECT g FROM Goal g WHERE g.name = ?1")
+    // this line can also be commented out
   Optional<Goal> findGoalByName(String name);
 
   @Query("SELECT g FROM Goal g WHERE g.projectId = ?1")

@@ -59,11 +59,11 @@ public class TaskController {
   public void updateTask(@PathVariable("projectId") Long projectId,
                          @PathVariable("goalId") Long currentGoalId,
                          @PathVariable("taskId") Long taskId,
-                         @RequestParam(required=false) String name,
-                         @RequestParam(required=false) String description,
-                         @RequestParam(required=false) Long goalId,
-                         @RequestParam(required=false) Integer weight,
-                         @RequestParam(required=false) Boolean completed) {
+                         @RequestParam(required = false) String name,
+                         @RequestParam(required = false) String description,
+                         @RequestParam(required = false) Long goalId,
+                         @RequestParam(required = false) Integer weight,
+                         @RequestParam(required = false) Boolean completed) {
     taskService.updateTask(projectId, currentGoalId, taskId, name, description, goalId, weight, completed);
   }
 }

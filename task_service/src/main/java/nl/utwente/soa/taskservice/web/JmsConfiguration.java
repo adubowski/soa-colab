@@ -17,9 +17,12 @@ import org.springframework.jms.support.converter.MessageType;
 @Configuration
 public class JmsConfiguration {
 
-  @Value("${ActiveMQ.broker.url}") private String brokerUrl; // It is not "http://localhost:8161/";
-  @Value("${ActiveMQ.broker.username}")private String brokerUsername;
-  @Value("${ActiveMQ.broker.password}") private String brokerPassword;
+  @Value("${ActiveMQ.broker.url}")
+  private String brokerUrl; // It is not "http://localhost:8161/";
+  @Value("${ActiveMQ.broker.username}")
+  private String brokerUsername;
+  @Value("${ActiveMQ.broker.password}")
+  private String brokerPassword;
 
   @Autowired
   public JmsConfiguration(ResourceLoader resourceLoader) {
@@ -30,7 +33,7 @@ public class JmsConfiguration {
   public ActiveMQConnectionFactory activeMQConnectionFactory() {
     ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
     activeMQConnectionFactory.setBrokerURL(brokerUrl);
-    if(brokerUsername != null && !brokerUsername.isEmpty() && brokerPassword != null && !brokerPassword.isEmpty()) {
+    if (brokerUsername != null && !brokerUsername.isEmpty() && brokerPassword != null && !brokerPassword.isEmpty()) {
       activeMQConnectionFactory.setUserName(brokerUsername);
       activeMQConnectionFactory.setPassword(brokerPassword);
     }

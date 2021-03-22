@@ -19,15 +19,17 @@ import org.springframework.web.client.RestTemplate;
 public class GoalService {
 
   private final GoalRepository goalRepository;
-  @Value("${projectservice.port}") private String projectPort;
-  @Value("${taskservice.port}") private String taskPort;
+  @Value("${projectservice.port}")
+  private String projectPort;
+  @Value("${taskservice.port}")
+  private String taskPort;
 
   @Autowired
   public GoalService(GoalRepository goalRepository) {
     this.goalRepository = goalRepository;
   }
 
-  public List<Goal> getGoals(Long projectId){
+  public List<Goal> getGoals(Long projectId) {
     // throw an exception if the project of the goals does not exist
     try {
       // see if the project with that projectId can be fetched from the ProjectService
@@ -169,6 +171,7 @@ public class GoalService {
   // Get information from ProjectService (Sync Communication)
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
+
   public Project getProject(Long projectId) {
     String url = "http://localhost:" + projectPort + "/api/v1/projects/" + projectId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
@@ -182,6 +185,7 @@ public class GoalService {
 
   @Autowired
   private RestTemplateBuilder restTemplateBuilder2;
+
   public void deleteTasksOfGoal(Long projectId, Long goalId) {
     String url = "http://localhost:" + taskPort + "/api/v1/projects/" + projectId + "/goals/" + goalId + "/tasks";
     RestTemplate restTemplate = restTemplateBuilder2.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();

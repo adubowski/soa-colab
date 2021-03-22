@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-  @Query("SELECT p FROM Project p WHERE p.name = ?1") // this line can also be commented out
+  @Query("SELECT p FROM Project p WHERE p.name = ?1")
+    // this line can also be commented out
   Optional<Project> findProjectByName(String name);
 
 }
