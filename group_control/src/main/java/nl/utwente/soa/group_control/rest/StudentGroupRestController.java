@@ -12,37 +12,37 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "api/v1/group")
 public class StudentGroupRestController {
-    private final StudentGroupService studentGroupService;
+  private final StudentGroupService studentGroupService;
 
-    @Autowired
-    public StudentGroupRestController(StudentGroupService studentGroupService) {
-        this.studentGroupService = studentGroupService;
-    }
+  @Autowired
+  public StudentGroupRestController(StudentGroupService studentGroupService) {
+    this.studentGroupService = studentGroupService;
+  }
 
-    @GetMapping
-    public List<StudentGroup> getGroups() {
-        return studentGroupService.getGroups();
-    }
+  @GetMapping
+  public List<StudentGroup> getGroups() {
+    return studentGroupService.getGroups();
+  }
 
-    @GetMapping(path= "{groupId}")
-    public Optional<StudentGroup> getGroupById(@PathVariable("groupId") Long id) {
-        return studentGroupService.getGroupById(id);
-    }
+  @GetMapping(path = "{groupId}")
+  public Optional<StudentGroup> getGroupById(@PathVariable("groupId") Long id) {
+    return studentGroupService.getGroupById(id);
+  }
 
-    @PostMapping
-    public void registerNewStudentGroup(@RequestBody StudentGroup studentGroup) {
-        studentGroupService.addNewGroup(studentGroup);
-    }
+  @PostMapping
+  public void registerNewStudentGroup(@RequestBody StudentGroup studentGroup) {
+    studentGroupService.addNewGroup(studentGroup);
+  }
 
-    @DeleteMapping(path="{groupId}")
-    public void deleteStudentGroup(@PathVariable("groupId") Long id) {
-        studentGroupService.deleteGroup(id);
-    }
+  @DeleteMapping(path = "{groupId}")
+  public void deleteStudentGroup(@PathVariable("groupId") Long id) {
+    studentGroupService.deleteGroup(id);
+  }
 
-    @PutMapping(path="{groupId}")
-    public void updateStudentGroup(
-            @PathVariable("groupId") Long groupId,
-            @RequestParam(required = false) String name) {
-        studentGroupService.updateGroup(groupId, name);
-    }
+  @PutMapping(path = "{groupId}")
+  public void updateStudentGroup(
+      @PathVariable("groupId") Long groupId,
+      @RequestParam(required = false) String name) {
+    studentGroupService.updateGroup(groupId, name);
+  }
 }

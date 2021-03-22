@@ -11,20 +11,20 @@ import java.util.List;
 @Configuration
 public class StudentGroupConfig {
 
-    @Bean
-    CommandLineRunner studentGroupCLRunner(StudentGroupRepository repository) {
-        return args -> {
-            StudentGroup studentGroup1 = new StudentGroup(
-                    "group1"
-            );
+  @Bean
+  CommandLineRunner studentGroupCLRunner(StudentGroupRepository repository) {
+    return args -> {
+      StudentGroup studentGroup1 = new StudentGroup(
+          "group1"
+      );
 
-            StudentGroup studentGroup2 = new StudentGroup(
-                    "group2"
-            );
+      StudentGroup studentGroup2 = new StudentGroup(
+          "group2"
+      );
 
-            repository.saveAll(
-                    List.of(studentGroup1, studentGroup2)
-            );
-        };
-    }
+      repository.saveAll(
+          List.of(studentGroup1, studentGroup2)
+      );
+    };
+  }
 }
