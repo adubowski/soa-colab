@@ -53,6 +53,12 @@ public class TaskController {
     taskService.deleteTask(projectId, goalId, taskId);
   }
 
+  @DeleteMapping
+  public void deleteTasks(@PathVariable("projectId") Long projectId,
+                         @PathVariable("goalId") Long goalId) {
+    taskService.deleteTasks(projectId, goalId);
+  }
+
   @PutMapping("{taskId}")
   public void updateTask(@PathVariable("projectId") Long projectId,
                          @PathVariable("goalId") Long currentGoalId,

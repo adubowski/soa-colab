@@ -1,5 +1,6 @@
 package nl.utwente.soa.taskservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,24 +11,11 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 // Lombok generates getters and setters
 @Getter
 @Setter
-// Entity and Tabel are used by JPA to generate a Goal table based on this java class
-@Entity // used by Hibernate (JPA is an abstraction on Hibernate)
-@Table
 public class Goal {
-
-  @Id
-  @SequenceGenerator(
-      name = "goal_sequence",
-      sequenceName = "goal_sequence",
-      allocationSize = 1
-  )
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "goal_sequence"
-  )
   private Long id;
   private String name;
   private String description;

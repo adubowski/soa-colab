@@ -17,16 +17,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "name",
-    "description",
-    "goalId",
-    "weight",
-    "completed"
-})
-@XmlRootElement(name = "task")
 public class Task {
   @Id
   @SequenceGenerator(

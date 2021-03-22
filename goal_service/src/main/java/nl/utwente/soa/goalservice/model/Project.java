@@ -1,6 +1,7 @@
 package nl.utwente.soa.goalservice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,22 +12,11 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-@Entity
-@Table
 public class Project {
 
-  @Id
-  @SequenceGenerator(
-      name = "project_sequence",
-      sequenceName = "project_sequence",
-      allocationSize = 1
-  )
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "project_sequence"
-  )
   private Long id;
   private Long studentGroupID;
   private String name;

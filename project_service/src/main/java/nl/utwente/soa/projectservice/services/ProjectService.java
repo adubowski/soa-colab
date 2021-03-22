@@ -9,6 +9,7 @@ import nl.utwente.soa.projectservice.model.Project;
 import nl.utwente.soa.projectservice.access.ProjectRepository;
 import nl.utwente.soa.projectservice.model.StudentGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 public class ProjectService {
 
   private final ProjectRepository projectRepository;
+  @Value("${studentgroup.port}") private String studentGroupPort;
+  @Value("${goalservice.port}") private String goalsPort;
 
   @Autowired
   public ProjectService(ProjectRepository projectRepository) {
@@ -63,7 +66,8 @@ public class ProjectService {
       throw new IllegalStateException("Project with id " + projectId + " does not exist!");
     }
     projectRepository.deleteById(projectId);
-
+    // also delete all goals of this project
+    this.deleteGoalsOfProject(projectId);
   }
 
   @Transactional
@@ -97,11 +101,23 @@ public class ProjectService {
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
   public StudentGroup getStudentGroup(Long studentGroupId) {
-    String url = "http://localhost:8081/api/v1/group/" + studentGroupId;
+    String url = "http://localhost:" + studentGroupPort + "/api/v1/group/" + studentGroupId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
     try {
       StudentGroup studentGroup = restTemplate.getForObject(url, StudentGroup.class);
       return studentGroup;
+    } catch (IllegalStateException e) {
+      throw e;
+    }
+  }
+
+  @Autowired
+  private RestTemplateBuilder restTemplateBuilder2;
+  public void deleteGoalsOfProject(Long projectId) {
+    String url = "http://localhost:" + goalsPort + "/api/v1/projects/" + projectId + "/goals";
+    RestTemplate restTemplate = restTemplateBuilder2.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
+    try {
+      restTemplate.delete(url);
     } catch (IllegalStateException e) {
       throw e;
     }

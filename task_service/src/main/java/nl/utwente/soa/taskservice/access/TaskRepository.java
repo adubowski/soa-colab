@@ -15,4 +15,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
   @Query("SELECT t FROM Task t WHERE t.goalId = ?1")
   List<Task> findAllByGoalId(Long goalId);
+
+  @Query("DELETE FROM Task t WHERE t.goalId = ?1")
+  void deleteAllByGoalId(Long goalId);
 }

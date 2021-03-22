@@ -8,6 +8,7 @@ import nl.utwente.soa.taskservice.access.TaskRepository;
 import nl.utwente.soa.taskservice.model.Goal;
 import nl.utwente.soa.taskservice.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class TaskService {
 
   private final TaskRepository taskRepository;
   @Autowired private JmsTemplate jmsTemplate;
+  @Value("${goalservice.port}") private String goalPort;
+  @Value("${ActiveMQ.queue.test}") private String testQueue;
 
   @Autowired
   public TaskService(TaskRepository taskRepository) {
@@ -25,32 +28,30 @@ public class TaskService {
   }
 
   public List<Task> getTasks(Long projectId, Long goalId){
-    List<Task> tasks = taskRepository.findAllByGoalId(goalId);
-    // throw exception if one of the requested tasks' goalId or projectId doesn't match goalId or projectId in the URI
-    for (Task task : tasks) {
-      if (!Objects.equals(task.getGoalId(), goalId)) {
-        throw new IllegalStateException("Task with Id " + task.getId() + " is not part of the goal with id " + goalId);
-      }
+    // throw an exception if the goal of the tasks does not exist
+    try {
+      // see if the goal with that goalId and projectId can be fetched from the GoalService
       Goal goal = this.getGoal(projectId, goalId);
-      if (!Objects.equals(goal.getProjectId(), projectId)) {
-        throw new IllegalStateException("Task with Id " + task.getId() + " is not part of the project with id " + projectId);
-      }
+    } catch (IllegalStateException e) {
+      throw e;
     }
-    return tasks;
+    return taskRepository.findAllByGoalId(goalId);
   }
 
   public Optional<Task> getTask(Long projectId, Long goalId, Long taskId) {
     Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist."
     ));
+    // throw an exception if the goal of the tasks does not exist
+    try {
+      // see if the goal with that goalId and projectId can be fetched from the GoalService
+      Goal goal = this.getGoal(projectId, goalId);
+    } catch (IllegalStateException e) {
+      throw e;
+    }
     // throw an exception if the goalId of the requested task does not match the goalId in the URI
     if (!Objects.equals(task.getGoalId(), goalId)) {
       throw new IllegalStateException("Task with Id " + taskId + " is not part of the goal with id " + goalId);
-    }
-    // throw an exception if the projectId of the requested task does not match the projectId in the URI
-    Goal goal = this.getGoal(projectId, goalId);
-    if (!Objects.equals(goal.getProjectId(), projectId)) {
-      throw new IllegalStateException("Task with Id " + taskId + " is not part of the project with id " + projectId);
     }
     return taskRepository.findById(taskId);
   }
@@ -60,14 +61,16 @@ public class TaskService {
     if (task.getId() != null && taskRepository.existsById(task.getId())) {
       throw new IllegalStateException("Task ID taken");
     }
+    // throw an exception if either the projectId or the goalId of the to-be created task does not exist
+    try {
+      // see if the goal with that goalId and projectId can be fetched from the GoalService
+      Goal goal = this.getGoal(projectId, goalId);
+    } catch (IllegalStateException e) {
+      throw e;
+    }
     // throw an exception if the URI goalId is not equal to the goalId of the body of the HTTP POST request
     if (!Objects.equals(task.getGoalId(), goalId)) {
       throw new IllegalStateException("There is a mismatch between the goalId in the URI and the goalId of the newly created task");
-    }
-    // throw an exception if the URI projectId is not equal to the projectId of the body of the HTTP POST request
-    Goal goal = this.getGoal(projectId, goalId);
-    if (!Objects.equals(goal.getProjectId(), projectId)) {
-      throw new IllegalStateException("Task with Id " + task.getId() + " is not part of the project with id " + projectId);
     }
     // throw an exception if the name of the task is already used within this goal
     List<Task> tasksWithGoalId = taskRepository.findAllByGoalId(goalId);
@@ -77,23 +80,36 @@ public class TaskService {
       }
     }
     taskRepository.save(task);
-    jmsTemplate.convertAndSend("testQueue", task);
+    jmsTemplate.convertAndSend(testQueue, task);
   }
 
   public void deleteTask(Long projectId, Long goalId, Long taskId) {
     Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist."
     ));
+    // throw an exception if the goal of the tasks does not exist
+    try {
+      // see if the goal with that goalId and projectId can be fetched from the GoalService
+      Goal goal = this.getGoal(projectId, goalId);
+    } catch (IllegalStateException e) {
+      throw e;
+    }
     // throw an exception if the goalId of the task does not match the goalId in the URI
     if (!Objects.equals(task.getGoalId(), goalId)) {
       throw new IllegalStateException("Task with Id " + taskId + " is not part of the goal with id " + goalId);
     }
-    // throw an exception if the projectId of the task does not match the projectId in the URI
-    Goal goal = this.getGoal(projectId, goalId);
-    if (!Objects.equals(goal.getProjectId(), projectId)) {
-      throw new IllegalStateException("Task with Id " + taskId + " is not part of the project with id " + projectId);
-    }
     taskRepository.deleteById(taskId);
+  }
+
+  public void deleteTasks(Long projectId, Long goalId) {
+    // throw an exception if the goal of the tasks does not exist
+    try {
+      // see if the goal with that goalId and projectId can be fetched from the GoalService
+      Goal goal = this.getGoal(projectId, goalId);
+    } catch (IllegalStateException e) {
+      throw e;
+    }
+    taskRepository.deleteAllByGoalId(goalId);
   }
 
   @Transactional
@@ -101,16 +117,17 @@ public class TaskService {
     Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException(
         "Task with id " + taskId + " does not exist!"
     ));
+    // throw an exception if the goal does not exist
+    try {
+      // see if the client goal with that new goalIdChange can be fetched from the GoalService
+      Goal goal = this.getGoal(projectId, goalId);
+    } catch (IllegalStateException e) {
+      throw e;
+    }
     // throw an exception if the goalId of the task does not match the goalId in the URI
     if (!Objects.equals(task.getGoalId(), goalId)) {
       throw new IllegalStateException("Task with Id " + taskId + " is not part of the goal with id " + goalId);
     }
-    // throw an exception if the projectId of the task does not match the projectId in the URI
-    Goal goal = this.getGoal(projectId, goalId);
-    if (!Objects.equals(goal.getProjectId(), projectId)) {
-      throw new IllegalStateException("Task with Id " + taskId + " is not part of the project with id " + projectId);
-    }
-
     if (name != null && name.length() > 0 && !Objects.equals(task.getName(), name)) {
       // throw an exception if the name of the task is already used within this goal
       List<Task> tasksWithGoalId = taskRepository.findAllByGoalId(goalId);
@@ -135,6 +152,13 @@ public class TaskService {
     }
 
     if (goalIdChange != null && !Objects.equals(goalId, goalIdChange)) {
+      // throw an exception if the goalIdChange (so the new goal id) does not exist
+      try {
+        // see if the client goal with that new goalIdChange can be fetched from the GoalService
+        Goal newGoal = this.getGoal(projectId, goalIdChange);
+      } catch (IllegalStateException e) {
+        throw e;
+      }
       Goal oldGoal = this.getGoal(projectId, goalId);
       Goal newGoal = this.getGoal(projectId, goalIdChange);
       if (!Objects.equals(oldGoal.getProjectId(), newGoal.getProjectId())) {
@@ -151,7 +175,7 @@ public class TaskService {
   @Autowired
   private RestTemplateBuilder restTemplateBuilder;
   public Goal getGoal(Long projectId, Long goalId) {
-    String url = "http://localhost:8080/api/v1/projects/" + projectId + "/goals/" + goalId;
+    String url = "http://localhost:" + goalPort + "/api/v1/projects/" + projectId + "/goals/" + goalId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
     try {
       Goal goal = restTemplate.getForObject(url, Goal.class);

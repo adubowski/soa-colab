@@ -50,6 +50,11 @@ public class GoalController {
     goalService.deleteGoal(projectId, goalId);
   }
 
+  @DeleteMapping
+  public void deleteGoals(@PathVariable("projectId") Long projectId) {
+    goalService.deleteGoals(projectId);
+  }
+
   @PutMapping("{goalId}")
   public void updateGoal(@PathVariable("projectId") Long projectId,
                          @PathVariable("goalId") Long goalId,
