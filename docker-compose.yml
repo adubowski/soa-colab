@@ -16,10 +16,22 @@ services:
       context: ./group_control
       dockerfile: Dockerfile
     ports:
-      - "8181:8080"
+      - "8100:8080"
   work_distributor:
     build:
       context: ./work_distributor
       dockerfile: Dockerfile
     ports:
-      - "8282:8080"
+      - "8200:8080"
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: Dockerfile
+    ports:
+      - "8300:8080"
+  meeting_handler:
+    build:
+      context: ./meeting_handler
+      dockerfile: Dockerfile
+    ports:
+      - "8400:8080"
