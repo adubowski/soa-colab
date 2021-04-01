@@ -1,37 +1,16 @@
-version: '3'
+version: '3.7'
 services:
-  lb:
-    build:
-      context: ./gateway
-      dockerfile: Dockerfile
+  group_control_db:
+    image: postgres:11.6
+    container_name: group_control_db
+    volumes:
+      - ../docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - postgresdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_MULTIPLE_DATABASES=students,projects,meetings
     ports:
-      - "9090:9090"
-    depends_on:
-      - group_control
-      - work_distributor
-      - scheduler
-      - meeting_handler
-  group_control:
-    build:
-      context: ./group_control
-      dockerfile: Dockerfile
-    ports:
-      - "8100:8080"
-  work_distributor:
-    build:
-      context: ./work_distributor
-      dockerfile: Dockerfile
-    ports:
-      - "8200:8080"
-  scheduler:
-    build:
-      context: ./scheduler
-      dockerfile: Dockerfile
-    ports:
-      - "8300:8080"
-  meeting_handler:
-    build:
-      context: ./meeting_handler
-      dockerfile: Dockerfile
-    ports:
-      - "8400:8080"
+      - 5433:5432
+
+volumes:
+  postgresdata:
