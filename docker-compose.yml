@@ -1,10 +1,10 @@
 version: '3.7'
 services:
-  group_control_db:
+  colab_postgres:
     image: postgres:11.6
-    container_name: group_control_db
+    container_name: colab_postgres
     volumes:
-      - ../docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
       - postgresdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=root
