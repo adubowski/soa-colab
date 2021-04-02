@@ -55,11 +55,17 @@ public class TaskService {
   }
 
   public void addNewTask(Long projectId, Long goalId, Task task) {
-    // The value of the DB id doesn't matter, since it is overwritten by the sequence_generator
-    // throw an exception if the id of the task is already used
-//    if (task.getId() != null && taskRepository.existsById(task.getId())) {
-//      throw new IllegalStateException("DataBase Task ID taken");
-//    }
+    // throw an exception if not all required fields are filled in
+    if (task.getName() == null || task.getDescription() == null || task.getWeight() == null) {
+      throw new IllegalStateException("The following fields cannot be null: name, description, weight");
+    }
+    // throw an exception if an id is specified in the body of the POST request (they should be created by the server)
+    if (task.getProjectId() != null || task.getGoalId() != null ||
+        task.getTaskId() != null || task.getId() != null) {
+      throw new IllegalStateException("Please remove the following fields from the body of " +
+          "the POST request: projectId, goalId, taskId, id");
+      // The value of the DB id actually doesn't matter, since it is overwritten by the sequence_generator
+    }
     // throw an exception if either the project or the goal of the to-be-created task does not exist
     try {
       Optional<Goal> goal = goalService.getGoal(projectId, goalId);
@@ -68,14 +74,20 @@ public class TaskService {
     }
     // throw an exception if the name of the task is already used within this goal
     List<Task> tasksWithGoalId = taskRepository.findAllByProjectIdAndGoalId(projectId, goalId);
+    Long max = 0L;
     for (Task taskWithGoalId : tasksWithGoalId) {
-      if (taskWithGoalId.getTaskId().equals(task.getTaskId())) {
-        throw new IllegalStateException("This taskId is already used within this goal");
-      }
       if (taskWithGoalId.getName().equals(task.getName())) {
         throw new IllegalStateException("Name of the task is already used within this goal");
       }
+      if (taskWithGoalId.getTaskId() > max) {
+        max = taskWithGoalId.getTaskId();
+      }
     }
+    // make sure these fields are set, because they are not specified in the body of the POST request
+    task.setTaskId(max + 1);
+    task.setGoalId(goalId);
+    task.setProjectId(projectId);
+    task.setCompleted(false);
     taskRepository.save(task);
     jmsTemplate.convertAndSend(testQueue, task);
   }

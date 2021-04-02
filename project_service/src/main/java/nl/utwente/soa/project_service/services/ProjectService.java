@@ -45,11 +45,18 @@ public class ProjectService {
   }
 
   public void createNewProject(Project project) {
-    // The value of the DB id doesn't matter, since it is overwritten by the sequence_generator
-    // throw an exception if the id of the project is already used
-//    if (project.getId() != null && projectRepository.existsById(project.getId())) {
-//      throw new IllegalStateException("DataBase Project ID taken");
-//    }
+    // throw an exception if not all required fields are filled in
+    if (project.getStudentGroupID() == null || project.getName() == null ||
+        project.getDescription() == null || project.getDeadline() == null) {
+      throw new IllegalStateException("The following fields cannot be null: studentGroupID, " +
+          "name, description, deadline");
+    }
+    // throw an exception if an id is specified in the body of the POST request (they should be created by the server)
+    if (project.getId() != null) {
+      throw new IllegalStateException("Please remove the following fields from the body of " +
+          "the POST request: id");
+      // The value of the DB id actually doesn't matter, since it is overwritten by the sequence_generator
+    }
     // throw an exception if the studentGroupId of the to-be created project does not exist
     try {
       // the group id passed by the client to create the group

@@ -55,11 +55,16 @@ public class GoalService {
   }
 
   public void addNewGoal(Long projectId, Goal goal) {
-    // The value of the DB id doesn't matter, since it is overwritten by the sequence_generator
-    // throw an exception if the id of the goal is already used
-//    if (goal.getId() != null && goalRepository.existsById(goal.getId())) {
-//      throw new IllegalStateException("DataBase Goal ID taken");
-//    }
+    // throw an exception if not all required fields are filled in
+    if (goal.getName() == null || goal.getDescription() == null || goal.getDeadline() == null) {
+      throw new IllegalStateException("The following fields cannot be null: name, description, deadline");
+    }
+    // throw an exception if an id is specified in the body of the POST request (they should be created by the server)
+    if (goal.getProjectId() != null || goal.getGoalId() != null || goal.getId() != null) {
+      throw new IllegalStateException("Please remove the following fields from the body of " +
+          "the POST request: projectId, goalId, id");
+      // The value of the DB id actually doesn't matter, since it is overwritten by the sequence_generator
+    }
     // throw an exception if the project of the to-be-created goal does not exist
     try {
       Optional<Project> project = projectService.getProject(projectId);
@@ -68,12 +73,14 @@ public class GoalService {
     }
     // throw an exception if either the goalId or name of the goal is already used within this project
     List<Goal> goalsWithProjectId = goalRepository.findAllByProjectId(projectId);
+    Long max = 0L;
     for (Goal goalWithProjectId : goalsWithProjectId) {
-      if (goalWithProjectId.getGoalId().equals(goal.getGoalId())) {
-        throw new IllegalStateException("This goalId is already used within this project");
-      }
       if (goalWithProjectId.getName().equals(goal.getName())) {
         throw new IllegalStateException("Name of the goal is already used within this project");
+      }
+      System.out.println("GOAL IN DB: " + goalWithProjectId.getName());
+      if (goalWithProjectId.getGoalId() > max) {
+        max = goalWithProjectId.getGoalId();
       }
     }
     // throw an exception if the goal deadline is created with a date later than the project deadline
@@ -83,6 +90,10 @@ public class GoalService {
     if (goalDeadline.after(projectDeadline)) {
       throw new IllegalStateException("The goal deadline cannot be later than the project deadline!");
     }
+    // make sure these fields are set, because they are not specified in the body of the POST request
+    goal.setGoalId(max + 1);
+    goal.setProjectId(projectId);
+    goal.setCompleted(false);
     goalRepository.save(goal);
   }
 
