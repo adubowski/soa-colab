@@ -1,8 +1,14 @@
 package nl.utwente.soa.scheduler.web;
 
+import java.util.HashMap;
+import java.util.Map;
+import nl.utwente.soa.scheduler.model.Goal;
+import nl.utwente.soa.scheduler.model.Meeting;
+import nl.utwente.soa.scheduler.model.Task;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
@@ -45,19 +51,25 @@ public class JmsConfiguration {
     MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
     converter.setTargetType(MessageType.TEXT);
     converter.setTypeIdPropertyName("_type");
+    Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
+    typeIdMappings.put("task", Task.class);
+    typeIdMappings.put("goal", Goal.class);
+    typeIdMappings.put("meeting", Meeting.class);
+    converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }
 
   // Create the JmsListernerFactory with the correct marshaller.
   @Bean
-  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(DefaultJmsListenerContainerFactoryConfigurer configurer) {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-    factory.setConnectionFactory(activeMQConnectionFactory());
-    factory.setMessageConverter(jacksonJmsMessageConverter()); // I CHANGED jaxbMarshaller to jacksonJmsMessageConverter
-    factory.setConcurrency("3-10"); // limit concurrent listener
-    factory.setErrorHandler((e) -> {
-      throw new IllegalStateException("An error occured while processing the MQ message");
-    });
+    configurer.configure(factory, activeMQConnectionFactory());
+//    factory.setConnectionFactory(activeMQConnectionFactory());
+//    factory.setMessageConverter(jacksonJmsMessageConverter()); // I CHANGED jaxbMarshaller to jacksonJmsMessageConverter
+//    factory.setConcurrency("3-10"); // limit concurrent listener
+//    factory.setErrorHandler((e) -> {
+//      throw new IllegalStateException("An error occurred while processing the MQ message");
+//    });
     return factory;
   }
 

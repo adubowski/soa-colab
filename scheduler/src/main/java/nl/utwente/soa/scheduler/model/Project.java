@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Project {
-
   private Long id;
   private Long studentGroupID;
   private String name;
@@ -29,12 +28,12 @@ public class Project {
     this.completed = completed;
   }
 
-  public Project(Long id, Long studentGroupID, String name, String description, Date deadline, Boolean completed) {
-    this.id = id;
-    this.studentGroupID = studentGroupID;
-    this.name = name;
-    this.description = description;
-    this.deadline = deadline;
-    this.completed = completed;
-  }
+//  public Project(Long id, Long studentGroupID, String name, String description, Date deadline, Boolean completed) {
+//    this.id = id;
+//    this.studentGroupID = studentGroupID;
+//    this.name = name;
+//    this.description = description;
+//    this.deadline = deadline;
+//    this.completed = completed;
+//  }
 }

@@ -12,6 +12,7 @@ import nl.utwente.soa.project_service.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,13 +23,19 @@ public class GoalService {
   private final GoalRepository goalRepository;
   private final TaskRepository taskRepository;
 
+  private final JmsTemplate jmsTemplate;
+  @Value("${ActiveMQ.queue.goal}")
+  private String goalQueue;
+
   private final ProjectService projectService;
 
   @Autowired
-  public GoalService(GoalRepository goalRepository, TaskRepository taskRepository, ProjectService projectService) {
+  public GoalService(GoalRepository goalRepository, TaskRepository taskRepository,
+                     ProjectService projectService, JmsTemplate jmsTemplate) {
     this.goalRepository = goalRepository;
     this.taskRepository = taskRepository;
     this.projectService = projectService;
+    this.jmsTemplate = jmsTemplate;
   }
 
   public List<Goal> getGoals(Long projectId) {
@@ -95,6 +102,7 @@ public class GoalService {
     goal.setProjectId(projectId);
     goal.setCompleted(false);
     goalRepository.save(goal);
+    jmsTemplate.convertAndSend(goalQueue, goal);
   }
 
   @Transactional

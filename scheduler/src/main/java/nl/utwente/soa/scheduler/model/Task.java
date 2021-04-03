@@ -8,33 +8,38 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Task {
-
   private Long id;
+  private Long taskId;
+  private Long goalId;
+  private Long projectId;
   private String name;
   private String description;
-  private Long goalId;
   private Integer weight;
   private Boolean completed;
 
   public Task() {
   }
 
-  public Task(String name, String description, Long goalId, Integer weight, Boolean completed) {
+  public Task(Long taskId, Long goalId, Long projectId, String name, String description, Integer weight, Boolean completed) {
+    this.taskId = taskId;
+    this.goalId = goalId;
+    this.projectId = projectId;
     this.name = name;
     this.description = description;
-    this.goalId = goalId;
     this.weight = weight;
     this.completed = completed;
   }
 
-  public Task(Long id, String name, String description, Long goalId, Integer weight, Boolean completed) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.goalId = goalId;
-    this.weight = weight;
-    this.completed = completed;
-  }
+//  public Task(Long id, Long taskId, Long goalId, Long projectId, String name, String description, Integer weight, Boolean completed) {
+//    this.id = id;
+//    this.taskId = taskId;
+//    this.goalId = goalId;
+//    this.projectId = projectId;
+//    this.name = name;
+//    this.description = description;
+//    this.weight = weight;
+//    this.completed = completed;
+//  }
 
 
 }

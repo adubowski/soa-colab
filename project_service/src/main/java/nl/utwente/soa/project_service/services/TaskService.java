@@ -19,16 +19,17 @@ import org.springframework.web.client.RestTemplate;
 public class TaskService {
 
   private final TaskRepository taskRepository;
-  @Autowired
-  private JmsTemplate jmsTemplate;
-  @Value("${ActiveMQ.queue.test}")
-  private String testQueue;
+  private final JmsTemplate jmsTemplate;
+  @Value("${ActiveMQ.queue.task}")
+  private String taskQueue;
   private final GoalService goalService;
 
   @Autowired
-  public TaskService(TaskRepository taskRepository, GoalService goalService) {
+  public TaskService(TaskRepository taskRepository, GoalService goalService,
+                     JmsTemplate jmsTemplate) {
     this.taskRepository = taskRepository;
     this.goalService = goalService;
+    this.jmsTemplate = jmsTemplate;
   }
 
   public List<Task> getTasks(Long projectId, Long goalId) {
@@ -89,7 +90,7 @@ public class TaskService {
     task.setProjectId(projectId);
     task.setCompleted(false);
     taskRepository.save(task);
-    jmsTemplate.convertAndSend(testQueue, task);
+    jmsTemplate.convertAndSend(taskQueue, task);
   }
 
   @Transactional

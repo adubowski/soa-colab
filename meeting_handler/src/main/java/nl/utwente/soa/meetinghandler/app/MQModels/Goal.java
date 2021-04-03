@@ -1,4 +1,4 @@
-package nl.utwente.soa.scheduler.model;
+package nl.utwente.soa.meetinghandler.app.MQModels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
