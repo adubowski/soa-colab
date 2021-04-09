@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_MULTIPLE_DATABASES=students,projects,meetings
     ports:
-      - 5433:5432
+      - 5432:5432
 
 volumes:
   postgresdata:
