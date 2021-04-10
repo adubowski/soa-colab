@@ -23,11 +23,11 @@ import org.springframework.jms.support.converter.MessageType;
 @Configuration
 public class JmsConfiguration {
 
-  @Value("${ActiveMQ.broker.url}")
+  @Value("${activemq.broker-url}")
   private String brokerUrl; // It is not "http://localhost:8161/";
-  @Value("${ActiveMQ.broker.username}")
+  @Value("${activemq.broker-username}")
   private String brokerUsername;
-  @Value("${ActiveMQ.broker.password}")
+  @Value("${activemq.broker-password}")
   private String brokerPassword;
 
   @Autowired

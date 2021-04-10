@@ -5,6 +5,7 @@ import java.util.List;
 import nl.utwente.soa.scheduler.model.Meeting;
 import nl.utwente.soa.scheduler.services.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,7 @@ public class SchedulerController {
   // create a meeting from an unplanned meeting
   @PutMapping("{meetingId}")
   public void createMeetingFromUnplannedMeeting(@PathVariable("meetingId") Long meetingId,
-                                                @RequestParam(required = true) Date date) {
+                                                @RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
     schedulerService.createMeetingFromUnplannedMeeting(meetingId, date);
 
   }

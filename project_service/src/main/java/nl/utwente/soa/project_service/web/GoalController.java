@@ -6,6 +6,7 @@ import java.util.Optional;
 import nl.utwente.soa.project_service.model.Goal;
 import nl.utwente.soa.project_service.services.GoalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +61,7 @@ public class GoalController {
                          @PathVariable("goalId") Long goalId,
                          @RequestParam(required = false) String name,
                          @RequestParam(required = false) String description,
-                         @RequestParam(required = false) Date deadline,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date deadline,
                          @RequestParam(required = false) Boolean completed) {
     goalService.updateGoal(projectId, goalId, name, description, deadline, completed);
   }
