@@ -9,17 +9,17 @@ spec:
     - host: colab.nl
       http:
         paths:
-          - path: /api/group
+          - path: /api/groups
             pathType: Prefix
             backend:
               service:
-                name: group-service-nginx
+                name: group-service-service
                 port:
                   number: 8080
-          - path: /api/student
+          - path: /api/students
             pathType: Prefix
             backend:
               service:
-                name: group-service-nginx
+                name: group-service-service
                 port:
                   number: 8080
