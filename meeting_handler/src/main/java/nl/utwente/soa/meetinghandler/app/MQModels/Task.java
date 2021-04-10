@@ -1,32 +1,32 @@
-package nl.utwente.soa.scheduler.model;
+package nl.utwente.soa.meetinghandler.app.MQModels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-// Lombok generates getters and setters
 @Getter
 @Setter
-public class Goal {
+public class Task {
   private Long id;
+  private Long taskId;
   private Long goalId;
   private Long projectId;
   private String name;
   private String description;
-  private Date deadline;
+  private Integer weight;
   private Boolean completed;
 
-  public Goal() {
+  public Task() {
   }
 
-  public Goal(Long goalId, Long projectId, String name, String description, Date deadline, Boolean completed) {
+  public Task(Long taskId, Long goalId, Long projectId, String name, String description, Integer weight, Boolean completed) {
+    this.taskId = taskId;
     this.goalId = goalId;
     this.projectId = projectId;
     this.name = name;
     this.description = description;
-    this.deadline = deadline;
+    this.weight = weight;
     this.completed = completed;
   }
 

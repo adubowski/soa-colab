@@ -1,13 +1,16 @@
-package nl.utwente.soa.scheduler.model;
+package nl.utwente.soa.meetinghandler.app.MQModels;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+// Lombok generates getters and setters
 @Getter
 @Setter
-public class Meeting {
+public class ScheduledMeeting {
 
   private Long meetingId;
   private Boolean planned;
@@ -16,10 +19,10 @@ public class Meeting {
   private Goal goal;
   private List<Task> tasks;
 
-  public Meeting() {
+  public ScheduledMeeting() {
   }
 
-  public Meeting(Long meetingId, Boolean planned, Boolean finished, Date date, Goal goal, List<Task> tasks) {
+  public ScheduledMeeting(Long meetingId, Boolean planned, Boolean finished, Date date, Goal goal, List<Task> tasks) {
     this. meetingId = meetingId;
     this.planned = planned;
     this.finished = finished;
@@ -27,5 +30,4 @@ public class Meeting {
     this.goal = goal;
     this.tasks = tasks;
   }
-
 }

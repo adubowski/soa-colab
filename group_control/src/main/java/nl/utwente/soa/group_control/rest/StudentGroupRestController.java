@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "api/v1/group")
+@RequestMapping(path = "api/groups")
 public class StudentGroupRestController {
   private final StudentGroupService studentGroupService;
 

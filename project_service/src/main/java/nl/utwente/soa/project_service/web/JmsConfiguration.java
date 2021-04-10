@@ -1,8 +1,9 @@
-package nl.utwente.soa.meetinghandler.app;
+package nl.utwente.soa.project_service.web;
 
 import java.util.HashMap;
 import java.util.Map;
-import nl.utwente.soa.meetinghandler.app.MQModels.ScheduledMeeting;
+import nl.utwente.soa.project_service.model.Goal;
+import nl.utwente.soa.project_service.model.Task;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +51,8 @@ public class JmsConfiguration {
     converter.setTargetType(MessageType.TEXT);
     converter.setTypeIdPropertyName("_type");
     Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
-    typeIdMappings.put("meeting", ScheduledMeeting.class);
+    typeIdMappings.put("task", Task.class);
+    typeIdMappings.put("goal", Goal.class);
     converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }
@@ -64,7 +66,7 @@ public class JmsConfiguration {
 //    factory.setMessageConverter(jacksonJmsMessageConverter()); // I CHANGED jaxbMarshaller to jacksonJmsMessageConverter
 //    factory.setConcurrency("3-10"); // limit concurrent listener
 //    factory.setErrorHandler((e) -> {
-//      throw new IllegalStateException("An error occurred while processing the MQ message");
+//      throw new IllegalStateException("An error occured while processing the MQ message");
 //    });
     return factory;
   }

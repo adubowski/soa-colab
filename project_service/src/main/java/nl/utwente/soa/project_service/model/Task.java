@@ -1,13 +1,29 @@
-package nl.utwente.soa.scheduler.model;
+package nl.utwente.soa.project_service.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
+@Entity
+@Table
 public class Task {
+  @Id
+  @SequenceGenerator(
+      name = "task_sequence",
+      sequenceName = "task_sequence",
+      allocationSize = 1
+  )
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "task_sequence"
+  )
   private Long id;
   private Long taskId;
   private Long goalId;

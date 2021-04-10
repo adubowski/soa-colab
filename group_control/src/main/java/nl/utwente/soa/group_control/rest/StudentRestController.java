@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(path = "api/v1/student")
+@RequestMapping(path = "api/students")
 public class StudentRestController {
 
   private final StudentService studentService;
