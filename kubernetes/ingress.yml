@@ -23,3 +23,17 @@ spec:
                 name: group-service-service
                 port:
                   number: 8080
+          - path: /api/projects
+            pathType: Prefix
+            backend:
+              service:
+                name: project-service-service
+                port:
+                  number: 8080
+          - path: /api/meetings
+            pathType: Prefix
+            backend:
+              service:
+                name: meeting-service-service
+                port:
+                  number: 8080

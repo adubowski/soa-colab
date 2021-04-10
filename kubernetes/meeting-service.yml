@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: meeting-service-service
+  labels:
+    app: meeting-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: meeting-service-service
+    targetPort: 8080
+    nodePort: 34756
+  selector:
+    app: meeting-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meeting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meeting-service
+  template:
+    metadata:
+      labels:
+        app: meeting-service
+    spec:
+      containers:
+      - name: meeting-service
+        image: s1871242/meeting-service
+        env:
+        - name: POSTGRES_DB_URL
+          value: 192.168.1.217:5432/meetings
+        ports:
+        - containerPort: 8080

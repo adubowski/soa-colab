@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-service-service
+  labels:
+    app: project-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: project-service-service
+    targetPort: 8080
+    nodePort: 33756
+  selector:
+    app: project-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-service
+  template:
+    metadata:
+      labels:
+        app: project-service
+    spec:
+      containers:
+      - name: project-service
+        image: s1871242/project-service
+        env:
+        - name: POSTGRES_DB_URL
+          value: 192.168.1.217:5432/projects
+        ports:
+        - containerPort: 8080
