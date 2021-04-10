@@ -10,7 +10,7 @@ spec:
   - port: 8080
     name: meeting-service-service
     targetPort: 8080
-    nodePort: 34756
+    nodePort: 32753
   selector:
     app: meeting-service
 ---

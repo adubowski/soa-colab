@@ -10,7 +10,7 @@ spec:
   - port: 8080
     name: project-service-service
     targetPort: 8080
-    nodePort: 33756
+    nodePort: 32754
   selector:
     app: project-service
 ---
