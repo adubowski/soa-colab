@@ -23,10 +23,10 @@ public class StudentConfig {
           "Matthijs",
           "matthijs@gmail.com"
       );
-
-      repository.saveAll(
-          List.of(adam, matthijs)
-      );
+      if (repository.findStudentByEmail("adam@gmail.com").isEmpty()
+              && repository.findStudentByEmail("matthijs@gmail.com").isEmpty()) {
+        repository.saveAll(List.of(adam, matthijs));
+      }
     };
   }
 }
