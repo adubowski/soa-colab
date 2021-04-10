@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/projects")
+@RequestMapping(path = "api/projects")
 public class ProjectController {
 
   private final ProjectService projectService;

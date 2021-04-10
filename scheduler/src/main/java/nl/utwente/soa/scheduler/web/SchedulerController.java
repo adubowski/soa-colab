@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/unplannedmeetings")
+@RequestMapping(path = "api/unplannedmeetings")
 public class SchedulerController {
 
   private final SchedulerService schedulerService;

@@ -6,14 +6,11 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import nl.utwente.soa.project_service.access.TaskRepository;
 import nl.utwente.soa.project_service.model.Goal;
-import nl.utwente.soa.project_service.model.Project;
 import nl.utwente.soa.project_service.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TaskService {

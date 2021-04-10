@@ -22,8 +22,8 @@ public class ProjectService {
   private final ProjectRepository projectRepository;
   private final GoalRepository goalRepository;
   private final TaskRepository taskRepository;
-  @Value("${studentgroup.port}")
-  private String studentGroupPort;
+  @Value("${service.group_control}")
+  private String studentGroupService;
 
   @Autowired
   public ProjectService(ProjectRepository projectRepository, GoalRepository goalRepository, TaskRepository taskRepository) {
@@ -110,7 +110,7 @@ public class ProjectService {
   private RestTemplateBuilder restTemplateBuilder;
 
   public StudentGroup getStudentGroup(Long studentGroupId) {
-    String url = "http://localhost:" + studentGroupPort + "/api/v1/group/" + studentGroupId;
+    String url = studentGroupService + "/api/group/" + studentGroupId;
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
     try {
       StudentGroup studentGroup = restTemplate.getForObject(url, StudentGroup.class);

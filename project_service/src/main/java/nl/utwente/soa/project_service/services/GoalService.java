@@ -11,10 +11,8 @@ import nl.utwente.soa.project_service.model.Goal;
 import nl.utwente.soa.project_service.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 
 @Service // is same as @Component (a Bean type), but more specific.

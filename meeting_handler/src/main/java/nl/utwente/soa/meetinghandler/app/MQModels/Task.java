@@ -30,16 +30,4 @@ public class Task {
     this.completed = completed;
   }
 
-//  public Task(Long id, Long taskId, Long goalId, Long projectId, String name, String description, Integer weight, Boolean completed) {
-//    this.id = id;
-//    this.taskId = taskId;
-//    this.goalId = goalId;
-//    this.projectId = projectId;
-//    this.name = name;
-//    this.description = description;
-//    this.weight = weight;
-//    this.completed = completed;
-//  }
-
-
 }

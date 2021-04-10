@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/projects/{projectId}/goals/{goalId}/tasks")
+@RequestMapping(path = "api/projects/{projectId}/goals/{goalId}/tasks")
 public class TaskController {
 
   private final TaskService taskService;

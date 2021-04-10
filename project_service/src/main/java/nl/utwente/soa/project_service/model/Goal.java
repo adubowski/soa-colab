@@ -48,15 +48,4 @@ public class Goal {
     this.completed = completed;
   }
 
-//  public Goal(Long id, Long goalId, Long projectId, String name, String description, Date deadline, Boolean completed) {
-//    this.id = id;
-//    this.goalId = goalId;
-//    this.projectId = projectId;
-//    this.name = name;
-//    this.description = description;
-//    this.deadline = deadline;
-//    this.completed = completed;
-//  }
-
-
 }

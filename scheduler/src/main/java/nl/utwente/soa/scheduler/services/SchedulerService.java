@@ -21,8 +21,8 @@ public class SchedulerService {
   private final JmsTemplate jmsTemplate;
   @Value("${ActiveMQ.queue.meeting}")
   private String meetingQueue;
-  @Value("${meetinghandler.port}")
-  private String meetingHandlerPort;
+  @Value("${service.meeting_handler}")
+  private String meetingHandlerService;
 
   @Autowired
   public SchedulerService(JmsTemplate jmsTemplate) {
@@ -88,7 +88,7 @@ public class SchedulerService {
   private RestTemplateBuilder restTemplateBuilder;
 
   public List<Meeting> getMeetings() {
-    String url = "http://localhost:" + meetingHandlerPort + "/api/v1/meetings";
+    String url = meetingHandlerService + "/api/meetings";
     RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
     try {
       Meeting[] meetings = restTemplate.getForObject(url, Meeting[].class);

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/meetings")
+@RequestMapping(path = "api/meetings")
 public class MeetingRestController {
 
     private final MeetingService meetingService;
