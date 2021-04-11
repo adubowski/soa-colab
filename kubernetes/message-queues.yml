@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: activemq-service
+  labels:
+    app: activemq
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 61616
+    name: openwire # JMX Broker port for sending and receiving messages
+    targetPort: 61616
+    nodePort: 32751
+    protocol: TCP
+  - port: 8161
+    name: dashboard # Web service for administration
+    targetPort: 8161
+    nodePort: 32750
+    protocol: TCP
+  selector:
+    app: activemq
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
+  template:
+    metadata:
+      labels:
+        app: activemq
+    spec:
+      containers:
+      - name: activemq
+        image: rmohr/activemq
