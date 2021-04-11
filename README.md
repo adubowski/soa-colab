@@ -15,7 +15,5 @@ If you want to test the ingress functionality, please set up your /etc/hosts fil
 and the ip address assigned to you by ingress.
 
 The activemq needs to be set up. The following queues are required:
-- projectQueue
-- goalQueue
-- taskQueue
 - meetingQueue
+- joinLinkQueue
