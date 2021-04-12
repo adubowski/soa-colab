@@ -52,12 +52,12 @@ public class JmsConfiguration {
     converter.setTypeIdPropertyName("_type");
     Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
     typeIdMappings.put("meeting", Meeting.class);
-    typeIdMappings.put("joinLink", String.class);
+    typeIdMappings.put("joinlink", JoinLink.class);
     converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }
 
-  // Create the JmsListernerFactory with the correct marshaller.
+  // Create the JmsListenerFactory with the correct marshaller.
   @Bean
   public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(DefaultJmsListenerContainerFactoryConfigurer configurer) {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();

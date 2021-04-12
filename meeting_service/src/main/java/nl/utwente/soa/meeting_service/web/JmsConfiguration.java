@@ -6,6 +6,7 @@ import java.util.Map;
 import nl.utwente.soa.meeting_service.model.JoinLink;
 import nl.utwente.soa.meeting_service.model.Meeting;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.hibernate.mapping.Join;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -53,7 +54,8 @@ public class JmsConfiguration {
     converter.setTypeIdPropertyName("_type");
     Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
     typeIdMappings.put("meeting", Meeting.class);
-    typeIdMappings.put("joinLink", JoinLink.class);
+    typeIdMappings.put("joinlink", JoinLink.class);
+    System.out.println(JoinLink.class);
     converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }

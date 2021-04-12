@@ -14,8 +14,8 @@ import lombok.Setter;
 @Entity
 @Table
 /**
- * The object Discussed represents the Task that is discussed at a Meeting.
- * Task-Meeting is a many-to-many relationship, so this Discussed object also represents the
+ * This class represents the Task that is discussed at a Meeting.
+ * Task-Meeting is a many-to-many relationship, so this MeetingTask object also represents the
  * relationship table for this Task-Meeting relationship.
  */
 public class MeetingTask {

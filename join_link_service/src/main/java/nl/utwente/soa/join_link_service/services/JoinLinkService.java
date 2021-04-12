@@ -20,6 +20,6 @@ public class JoinLinkService {
 
   public void generateJoinLink(Long projectId, Long goalId, Long meetingId) {
     JoinLink joinLink = new JoinLink(projectId, goalId, meetingId);
-    jmsTemplate.convertAndSend(joinLinkQueue, joinLink.getUrl());
+    jmsTemplate.convertAndSend(joinLinkQueue, joinLink);
   }
 }

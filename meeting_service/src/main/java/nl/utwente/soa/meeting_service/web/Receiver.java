@@ -22,6 +22,7 @@ public class Receiver {
 
   @JmsListener(destination = "${ActiveMQ.queue.joinLink}", containerFactory = "jmsListenerContainerFactory") // apparently @Value doesn't work here
   public void receiveMessage(JoinLink joinLink) {
+    System.out.println(joinLink);
     meetingService.addJoinLinkToMeeting(joinLink.getProjectId(), joinLink.getGoalId(), joinLink.getMeetingId(), joinLink.getUrl());
   }
 }
