@@ -14,7 +14,13 @@ public class MeetingConfig {
     CommandLineRunner meetingCLRunner(MeetingRepository repository) {
         return args -> {
             Meeting meeting = new Meeting(1L, 1L, 1L, new Date(), null);
-            repository.save(meeting);
+            if (repository.findMeetingByProjectIdAndGoalIdAndMeetingId(
+                    meeting.getMeetingId(),
+                    meeting.getProjectId(),
+                    meeting.getGoalId()
+            ).isEmpty()) {
+                repository.save(meeting);
+            }
         };
     }
 }
