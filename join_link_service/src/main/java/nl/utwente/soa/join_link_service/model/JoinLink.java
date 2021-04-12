@@ -10,16 +10,16 @@ public class JoinLink {
   private Long projectId;
   private Long goalId;
   private Long meetingId;
-  private String joinLink;
+  private String url;
 
   public JoinLink() {
 
   }
 
-  public JoinLink(Long projectId, Long goalId, Long meetingId, String joinLink) {
+  public JoinLink(Long projectId, Long goalId, Long meetingId) {
     this.projectId = projectId;
     this.goalId = goalId;
     this.meetingId = meetingId;
-    this.joinLink = joinLink;
+    this.url = "dummy.join.link?meetingId=" + meetingId + "&projectId=" + projectId + "&goalId=" + goalId;
   }
 }

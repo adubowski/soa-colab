@@ -1,6 +1,5 @@
 package nl.utwente.soa.meeting_service.web;
 
-import nl.utwente.soa.meeting_service.model.JoinLink;
 import nl.utwente.soa.meeting_service.services.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -19,7 +18,7 @@ public class Receiver {
 
   // TODO: Implement a JMSListener Receive method that listnes to JoinLinkQueue
   @JmsListener(destination = "${ActiveMQ.queue.joinlink}", containerFactory = "jmsListenerContainerFactory") // apparently @Value doesn't work here
-  public void receiveMessage(JoinLink joinLink) {
+  public void receiveMessage(String url) {
 
   }
 }

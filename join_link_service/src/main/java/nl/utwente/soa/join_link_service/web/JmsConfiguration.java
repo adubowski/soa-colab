@@ -23,7 +23,7 @@ import org.springframework.jms.support.converter.MessageType;
 public class JmsConfiguration {
 
   @Value("${activemq.broker-url}")
-  private String brokerUrl; // It is not "http://localhost:8161/";
+  private String brokerUrl;
   @Value("${activemq.broker-username}")
   private String brokerUsername;
   @Value("${activemq.broker-password}")
@@ -52,7 +52,7 @@ public class JmsConfiguration {
     converter.setTypeIdPropertyName("_type");
     Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
     typeIdMappings.put("meeting", Meeting.class);
-    typeIdMappings.put("joinlink", JoinLink.class);
+    typeIdMappings.put("joinLink", String.class);
     converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }
@@ -62,12 +62,6 @@ public class JmsConfiguration {
   public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(DefaultJmsListenerContainerFactoryConfigurer configurer) {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
     configurer.configure(factory, activeMQConnectionFactory());
-//    factory.setConnectionFactory(activeMQConnectionFactory());
-//    factory.setMessageConverter(jacksonJmsMessageConverter()); // I CHANGED jaxbMarshaller to jacksonJmsMessageConverter
-//    factory.setConcurrency("3-10"); // limit concurrent listener
-//    factory.setErrorHandler((e) -> {
-//      throw new IllegalStateException("An error occurred while processing the MQ message");
-//    });
     return factory;
   }
 
