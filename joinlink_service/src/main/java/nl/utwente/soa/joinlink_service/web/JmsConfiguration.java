@@ -1,8 +1,9 @@
-package nl.utwente.soa.joinlink_service;
+package nl.utwente.soa.joinlink_service.web;
 
 import java.util.HashMap;
 import java.util.Map;
-import nl.utwente.soa.joinlink_service.MQModels.ScheduledMeeting;
+import nl.utwente.soa.joinlink_service.model.JoinLink;
+import nl.utwente.soa.joinlink_service.model.Meeting;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +51,8 @@ public class JmsConfiguration {
     converter.setTargetType(MessageType.TEXT);
     converter.setTypeIdPropertyName("_type");
     Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
-    typeIdMappings.put("meeting", ScheduledMeeting.class);
+    typeIdMappings.put("meeting", Meeting.class);
+    typeIdMappings.put("joinlink", JoinLink.class);
     converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }

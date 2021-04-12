@@ -22,6 +22,10 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
   List<Goal> findAllByProjectId(Long projectId);
 
   @Modifying
+  @Query("DELETE FROM Goal g WHERE g.projectId = ?1 AND g.goalId = ?2")
+  void deleteGoalByProjectIdAndGoalId(Long projectId, Long goalId);
+
+  @Modifying
   @Query("DELETE FROM Goal g WHERE g.projectId = ?1")
   void deleteAllByProjectId(Long projectId);
 }

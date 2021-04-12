@@ -10,8 +10,6 @@ import nl.utwente.soa.project_service.access.TaskRepository;
 import nl.utwente.soa.project_service.model.Goal;
 import nl.utwente.soa.project_service.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 
@@ -20,20 +18,14 @@ public class GoalService {
 
   private final GoalRepository goalRepository;
   private final TaskRepository taskRepository;
-
-  private final JmsTemplate jmsTemplate;
-  @Value("${ActiveMQ.queue.goal}")
-  private String goalQueue;
-
   private final ProjectService projectService;
 
   @Autowired
   public GoalService(GoalRepository goalRepository, TaskRepository taskRepository,
-                     ProjectService projectService, JmsTemplate jmsTemplate) {
+                     ProjectService projectService) {
     this.goalRepository = goalRepository;
     this.taskRepository = taskRepository;
     this.projectService = projectService;
-    this.jmsTemplate = jmsTemplate;
   }
 
   public List<Goal> getGoals(Long projectId) {
@@ -56,7 +48,7 @@ public class GoalService {
     } catch (IllegalStateException e) {
       throw e;
     }
-    return goalRepository.findById(goalId);
+    return goalRepository.findGoalByProjectIdAndGoalId(projectId, goalId);
   }
 
   public void addNewGoal(Long projectId, Goal goal) {
@@ -83,7 +75,6 @@ public class GoalService {
       if (goalWithProjectId.getName().equals(goal.getName())) {
         throw new IllegalStateException("Name of the goal is already used within this project");
       }
-      System.out.println("GOAL IN DB: " + goalWithProjectId.getName());
       if (goalWithProjectId.getGoalId() > max) {
         max = goalWithProjectId.getGoalId();
       }
@@ -100,7 +91,6 @@ public class GoalService {
     goal.setProjectId(projectId);
     goal.setCompleted(false);
     goalRepository.save(goal);
-    jmsTemplate.convertAndSend(goalQueue, goal);
   }
 
   @Transactional
@@ -114,7 +104,7 @@ public class GoalService {
     } catch (IllegalStateException e) {
       throw e;
     }
-    goalRepository.deleteById(goalId);
+    goalRepository.deleteGoalByProjectIdAndGoalId(projectId, goalId);
     // also delete all tasks corresponding to this goal
     taskRepository.deleteAllByProjectIdAndGoalId(projectId, goalId);
   }

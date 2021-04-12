@@ -3,6 +3,7 @@ package nl.utwente.soa.meeting_service.web;
 import java.util.HashMap;
 import java.util.Map;
 import nl.utwente.soa.meeting_service.model.Goal;
+import nl.utwente.soa.meeting_service.model.JoinLink;
 import nl.utwente.soa.meeting_service.model.Meeting;
 import nl.utwente.soa.meeting_service.model.Task;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -52,9 +53,8 @@ public class JmsConfiguration {
     converter.setTargetType(MessageType.TEXT);
     converter.setTypeIdPropertyName("_type");
     Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
-    typeIdMappings.put("task", Task.class);
-    typeIdMappings.put("goal", Goal.class);
     typeIdMappings.put("meeting", Meeting.class);
+    typeIdMappings.put("joinlink", JoinLink.class);
     converter.setTypeIdMappings(typeIdMappings);
     return converter;
   }

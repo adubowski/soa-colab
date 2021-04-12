@@ -22,7 +22,7 @@ public class ProjectService {
   private final ProjectRepository projectRepository;
   private final GoalRepository goalRepository;
   private final TaskRepository taskRepository;
-  @Value("${service.group_control}")
+  @Value("${service.group_service}")
   private String studentGroupService;
 
   @Autowired

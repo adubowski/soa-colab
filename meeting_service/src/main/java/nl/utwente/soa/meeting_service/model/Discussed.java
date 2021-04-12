@@ -1,7 +1,5 @@
 package nl.utwente.soa.meeting_service.model;
 
-import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,34 +13,39 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table
-public class Meeting {
+/**
+ * The object Discussed represents the Task that is discussed at a Meeting.
+ * Task-Meeting is a many-to-many relationship, so this Discussed object also represents the
+ * relationship table for this Task-Meeting relationship.
+ */
+public class Discussed {
 
   @Id
   @SequenceGenerator(
-      name="meeting_sequence",
-      sequenceName = "meeting_sequence",
+      name="discussed_sequence",
+      sequenceName = "discussed_sequence",
       allocationSize = 1
   )
   @GeneratedValue(
       strategy = GenerationType.SEQUENCE,
-      generator = "meeting_sequence"
+      generator = "discussed_sequence"
   )
   private Long id;
   private Long meetingId;
+  private Long taskId;
   private Long projectId;
   private Long goalId;
-  private Date date;
-  private String joinLink;
+  private String notes;
 
-  public Meeting() {
+  public Discussed() {
   }
 
-  public Meeting(Long meetingId, Long projectId, Long goalId, Date date, String joinLink) {
+  public Discussed(Long meetingId, Long taskId, Long projectId, Long goalId, String notes) {
     this. meetingId = meetingId;
+    this.taskId = taskId;
     this.projectId = projectId;
     this.goalId = goalId;
-    this.date = date;
-    this.joinLink = joinLink;
+    this.notes = notes;
   }
 
 }

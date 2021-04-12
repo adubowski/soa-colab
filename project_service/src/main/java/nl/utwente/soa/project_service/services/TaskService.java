@@ -8,25 +8,18 @@ import nl.utwente.soa.project_service.access.TaskRepository;
 import nl.utwente.soa.project_service.model.Goal;
 import nl.utwente.soa.project_service.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TaskService {
 
   private final TaskRepository taskRepository;
-  private final JmsTemplate jmsTemplate;
-  @Value("${ActiveMQ.queue.task}")
-  private String taskQueue;
   private final GoalService goalService;
 
   @Autowired
-  public TaskService(TaskRepository taskRepository, GoalService goalService,
-                     JmsTemplate jmsTemplate) {
+  public TaskService(TaskRepository taskRepository, GoalService goalService) {
     this.taskRepository = taskRepository;
     this.goalService = goalService;
-    this.jmsTemplate = jmsTemplate;
   }
 
   public List<Task> getTasks(Long projectId, Long goalId) {
@@ -49,7 +42,7 @@ public class TaskService {
     Task task = taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist within this goal within this project."
     ));
-    return taskRepository.findById(taskId);
+    return taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
   }
 
   public void addNewTask(Long projectId, Long goalId, Task task) {
@@ -87,7 +80,6 @@ public class TaskService {
     task.setProjectId(projectId);
     task.setCompleted(false);
     taskRepository.save(task);
-    jmsTemplate.convertAndSend(taskQueue, task);
   }
 
   @Transactional
@@ -101,7 +93,7 @@ public class TaskService {
     Task task = taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist within this goal within this project."
     ));
-    taskRepository.deleteById(taskId);
+    taskRepository.deleteTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
   }
 
   @Transactional

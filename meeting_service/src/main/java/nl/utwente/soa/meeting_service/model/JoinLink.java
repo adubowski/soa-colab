@@ -1,31 +1,27 @@
-package nl.utwente.soa.joinlink_service.model;
+package nl.utwente.soa.meeting_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class Meeting {
+public class JoinLink {
 
-  private Long id;
-  private Long meetingId;
   private Long projectId;
   private Long goalId;
-  private Date date;
+  private Long meetingId;
   private String joinLink;
 
-  public Meeting() {
+  public JoinLink() {
+
   }
 
-  public Meeting(Long meetingId, Long projectId, Long goalId, Date date, String joinLink) {
-    this. meetingId = meetingId;
+  public JoinLink(Long projectId, Long goalId, Long meetingId, String joinLink) {
     this.projectId = projectId;
     this.goalId = goalId;
-    this.date = date;
+    this.meetingId = meetingId;
     this.joinLink = joinLink;
   }
-
 }
