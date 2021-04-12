@@ -45,4 +45,25 @@ public class StudentGroupRestController {
       @RequestParam(required = false) String name) {
     studentGroupService.updateGroup(groupId, name);
   }
+
+  /*
+  The following operations are about students MEMBER of a studentGroup
+   */
+
+  @GetMapping("{groupId}/students")
+  public List<Long> getStudentsOfGroup(@PathVariable("groupId") Long groupId) {
+    return studentGroupService.getStudentsOfGroup(groupId);
+  }
+
+  @PostMapping("{groupId}/students")
+  public void addStudentToGroup(@PathVariable("groupId") Long groupId,
+                                @RequestBody Long studentId) {
+    studentGroupService.addStudentToGroup(groupId, studentId);
+  }
+
+  @DeleteMapping("{groupId}/students/{studentId}")
+  public void deleteStudentFromGroup(@PathVariable("groupId") Long groupId,
+                                     @PathVariable("studentId") Long studentId) {
+    studentGroupService.deleteStudentFromGroup(groupId, studentId);
+  }
 }

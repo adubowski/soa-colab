@@ -1,5 +1,6 @@
 package nl.utwente.soa.group_service.services;
 
+import nl.utwente.soa.group_service.model.MemberRepository;
 import nl.utwente.soa.group_service.model.Student;
 import nl.utwente.soa.group_service.model.StudentGroupRepository;
 import nl.utwente.soa.group_service.model.StudentRepository;
@@ -18,11 +19,13 @@ public class StudentService {
 
   private final StudentRepository studentRepository;
   private final StudentGroupRepository studentGroupRepository;
+  private final MemberRepository memberRepository;
 
   @Autowired
-  public StudentService(StudentRepository studentRepository, StudentGroupRepository studentGroupRepository) {
+  public StudentService(StudentRepository studentRepository, StudentGroupRepository studentGroupRepository, MemberRepository memberRepository) {
     this.studentRepository = studentRepository;
     this.studentGroupRepository = studentGroupRepository;
+    this.memberRepository = memberRepository;
   }
 
   public List<Student> getStudents() {
@@ -54,6 +57,7 @@ public class StudentService {
   public void deleteStudent(Long id) {
     if (studentRepository.existsById(id)) {
       studentRepository.deleteById(id);
+      memberRepository.deleteAllByStudentId(id);
     } else {
       throw new IllegalStateException("student with id " + id + " does not exist");
     }

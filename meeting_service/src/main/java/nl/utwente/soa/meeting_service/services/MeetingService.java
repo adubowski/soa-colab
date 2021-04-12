@@ -184,12 +184,12 @@ public class MeetingService {
   @Transactional
   public void deleteTaskFromMeeting(Long projectId, Long goalId, Long meetingId, Long taskId) {
     Meeting meeting = this.getMeeting(projectId, goalId, meetingId);
-    MeetingTask meetingTask = meetingTaskRepository.findDiscussedByProjectIdAndGoalIdAndMeetingIdAndTaskId(
+    MeetingTask meetingTask = meetingTaskRepository.findMeetingTaskByProjectIdAndGoalIdAndMeetingIdAndTaskId(
             projectId, goalId, meetingId, taskId
     ).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist within this meeting"
     ));
-    meetingTaskRepository.deleteDiscussedByProjectIdAndGoalIdAndMeetingIdAndTaskId(projectId, goalId, meetingId, taskId);
+    meetingTaskRepository.deleteMeetingTaskByProjectIdAndGoalIdAndMeetingIdAndTaskId(projectId, goalId, meetingId, taskId);
   }
 
 
