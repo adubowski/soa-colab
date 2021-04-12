@@ -98,7 +98,7 @@ public class MeetingService {
     meeting.setProjectId(projectId);
     meetingRepository.save(meeting);
 
-    // send created meeting via MQ to the joinLink_service
+    // send created meeting via MQ to the JoinLinkService
     jmsTemplate.convertAndSend(meetingQueue, meeting);
   }
 

@@ -1,4 +1,4 @@
-package nl.utwente.soa.joinlink_service.model;
+package nl.utwente.soa.join_link_service.model;
 
 import lombok.Getter;
 import lombok.Setter;

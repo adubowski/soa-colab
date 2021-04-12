@@ -1,13 +1,13 @@
-package nl.utwente.soa.joinlink_service;
+package nl.utwente.soa.join_link_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JoinlinkServiceApplication {
+public class JoinLinkServiceApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(JoinlinkServiceApplication.class, args);
+    SpringApplication.run(JoinLinkServiceApplication.class, args);
   }
 
 }

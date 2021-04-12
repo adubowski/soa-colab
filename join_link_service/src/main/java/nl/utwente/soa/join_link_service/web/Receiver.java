@@ -1,7 +1,7 @@
-package nl.utwente.soa.joinlink_service.web;
+package nl.utwente.soa.join_link_service.web;
 
-import nl.utwente.soa.joinlink_service.model.Meeting;
-import nl.utwente.soa.joinlink_service.services.JoinLinkService;
+import nl.utwente.soa.join_link_service.model.Meeting;
+import nl.utwente.soa.join_link_service.services.JoinLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;

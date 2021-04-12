@@ -1,4 +1,4 @@
-package nl.utwente.soa.joinlink_service.model;
+package nl.utwente.soa.join_link_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
