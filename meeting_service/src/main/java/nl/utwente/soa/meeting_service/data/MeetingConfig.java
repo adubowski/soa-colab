@@ -13,7 +13,7 @@ public class MeetingConfig {
     @Bean
     CommandLineRunner meetingCLRunner(MeetingRepository repository) {
         return args -> {
-            Meeting meeting = new Meeting(1L, 1L, 1L, new Date(), null);
+            Meeting meeting = new Meeting(1L, 1L, 1L, new Date());
             if (repository.findMeetingByProjectIdAndGoalIdAndMeetingId(
                     meeting.getMeetingId(),
                     meeting.getProjectId(),

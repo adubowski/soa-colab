@@ -14,6 +14,7 @@ a production deployment with a standard PostgreSQL instance is recommended.
 If you want to test the ingress functionality, please set up your /etc/hosts file with colab.nl as the host, 
 and the ip address assigned to you by ingress.
 
-The activemq needs to be set up. The following queues are required:
+The following message queues are used in the project:
 - meetingQueue
 - joinLinkQueue
+It is not required to set them up since ActiveMQ silently configures required queues when needed.

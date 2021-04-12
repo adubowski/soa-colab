@@ -38,11 +38,17 @@ public class Meeting {
   }
 
   public Meeting(Long meetingId, Long projectId, Long goalId, Date date, String joinLink) {
-    this. meetingId = meetingId;
+    this.meetingId = meetingId;
     this.projectId = projectId;
     this.goalId = goalId;
     this.date = date;
     this.joinLink = joinLink;
+  }
+  public Meeting(Long meetingId, Long projectId, Long goalId, Date date) {
+    this.meetingId = meetingId;
+    this.projectId = projectId;
+    this.goalId = goalId;
+    this.date = date;
   }
 
 }

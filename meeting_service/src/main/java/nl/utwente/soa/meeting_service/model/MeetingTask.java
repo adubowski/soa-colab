@@ -18,17 +18,17 @@ import lombok.Setter;
  * Task-Meeting is a many-to-many relationship, so this Discussed object also represents the
  * relationship table for this Task-Meeting relationship.
  */
-public class Discussed {
+public class MeetingTask {
 
   @Id
   @SequenceGenerator(
-      name="discussed_sequence",
-      sequenceName = "discussed_sequence",
+      name="meeting_task_sequence",
+      sequenceName = "meeting_task_sequence",
       allocationSize = 1
   )
   @GeneratedValue(
       strategy = GenerationType.SEQUENCE,
-      generator = "discussed_sequence"
+      generator = "meeting_task_sequence"
   )
   private Long id;
   private Long meetingId;
@@ -37,11 +37,11 @@ public class Discussed {
   private Long goalId;
   private String notes;
 
-  public Discussed() {
+  public MeetingTask() {
   }
 
-  public Discussed(Long meetingId, Long taskId, Long projectId, Long goalId, String notes) {
-    this. meetingId = meetingId;
+  public MeetingTask(Long meetingId, Long taskId, Long projectId, Long goalId, String notes) {
+    this.meetingId = meetingId;
     this.taskId = taskId;
     this.projectId = projectId;
     this.goalId = goalId;

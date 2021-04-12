@@ -36,7 +36,7 @@ public class MeetingController {
   }
 
   @GetMapping("{meetingId}")
-  public Optional<Meeting> getMeeting(@PathVariable("projectId") Long projectId,
+  public Meeting getMeeting(@PathVariable("projectId") Long projectId,
                                       @PathVariable("goalId") Long goalId,
                                       @PathVariable("meetingId") Long meetingId) {
     return meetingService.getMeeting(projectId, goalId, meetingId);
