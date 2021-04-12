@@ -31,5 +31,8 @@ spec:
       containers:
       - name: join-link-service
         image: s1871242/join-link-service
+        env:
+        - name: ACTIVEMQ_URL
+          value: activemq-service
         ports:
         - containerPort: 8080

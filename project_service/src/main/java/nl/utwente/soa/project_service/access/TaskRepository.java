@@ -23,6 +23,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
   List<Task> findAllByProjectIdAndGoalId(Long projectId, Long goalId);
 
   @Modifying
+  @Query("DELETE FROM Task t WHERE t.projectId = ?1 AND t.goalId = ?2 AND t.taskId = ?3")
+  void deleteTaskByProjectIdAndGoalIdAndTaskId(Long projectId, Long goalId, Long taskId);
+
+  @Modifying
   @Query("DELETE FROM Task t WHERE t.projectId = ?1 AND t.goalId = ?2")
   void deleteAllByProjectIdAndGoalId(Long projectId, Long goalId);
 
