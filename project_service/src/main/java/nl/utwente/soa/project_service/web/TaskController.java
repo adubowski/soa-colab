@@ -33,7 +33,7 @@ public class TaskController {
   }
 
   @GetMapping("{taskId}")
-  public Optional<Task> getTask(@PathVariable("projectId") Long projectId,
+  public Task getTask(@PathVariable("projectId") Long projectId,
                                 @PathVariable("goalId") Long goalId,
                                 @PathVariable("taskId") Long taskId) {
     return taskService.getTask(projectId, goalId, taskId);

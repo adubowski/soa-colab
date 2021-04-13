@@ -36,25 +36,17 @@ public class TaskService {
 
   public List<Task> getTasks(Long projectId, Long goalId) {
     // throw an exception if the goal of the tasks does not exist
-    try {
-      Optional<Goal> goal = goalService.getGoal(projectId, goalId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Goal goal = goalService.getGoal(projectId, goalId);
     return taskRepository.findAllByProjectIdAndGoalId(projectId, goalId);
   }
 
-  public Optional<Task> getTask(Long projectId, Long goalId, Long taskId) {
+  public Task getTask(Long projectId, Long goalId, Long taskId) {
     // throw an exception if the goal of the task does not exist
-    try {
-      Optional<Goal> goal = goalService.getGoal(projectId, goalId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
-    Task task = taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId).orElseThrow(() -> new IllegalStateException(
-        "Task with Id " + taskId + " does not exist within this goal within this project."
-    ));
-    return taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
+    Goal goal = goalService.getGoal(projectId, goalId);
+    return taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId).orElseThrow(() ->
+            new IllegalStateException(
+                    "Task with Id " + taskId + " does not exist within this goal within this project."
+            ));
   }
 
   public void addNewTask(Long projectId, Long goalId, Task task) {
@@ -69,12 +61,7 @@ public class TaskService {
           "the POST request: projectId, goalId, taskId, id");
       // The value of the DB id actually doesn't matter, since it is overwritten by the sequence_generator
     }
-    // throw an exception if either the project or the goal of the to-be-created task does not exist
-    try {
-      Optional<Goal> goal = goalService.getGoal(projectId, goalId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Goal goal = goalService.getGoal(projectId, goalId);
     // throw an exception if the name of the task is already used within this goal
     List<Task> tasksWithGoalId = taskRepository.findAllByProjectIdAndGoalId(projectId, goalId);
     Long max = 0L;
@@ -97,11 +84,7 @@ public class TaskService {
   @Transactional
   public void deleteTask(Long projectId, Long goalId, Long taskId) {
     // throw an exception if the goal of the task does not exist
-    try {
-      Optional<Goal> goal = goalService.getGoal(projectId, goalId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Goal goal = goalService.getGoal(projectId, goalId);
     Task task = taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist within this goal within this project."
     ));
@@ -113,11 +96,7 @@ public class TaskService {
   @Transactional
   public void deleteTasks(Long projectId, Long goalId) {
     // throw an exception if the goal of the tasks does not exist
-    try {
-      Optional<Goal> goal = goalService.getGoal(projectId, goalId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Goal goal = goalService.getGoal(projectId, goalId);
     taskRepository.deleteAllByProjectIdAndGoalId(projectId, goalId);
     // also delete every assignment of "all tasks of this goal" to a student
     studentTaskRepository.deleteAllByProjectIdAndGoalId(projectId, goalId);
@@ -126,11 +105,7 @@ public class TaskService {
   @Transactional
   public void updateTask(Long projectId, Long goalId, Long taskId, String name, String description, Long goalIdChange, Integer weight, Boolean completed) {
     // throw an exception if the goal of the task does not exist
-    try {
-      Optional<Goal> goal = goalService.getGoal(projectId, goalId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Goal oldGoal = goalService.getGoal(projectId, goalId);
     Task task = taskRepository.findTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId).orElseThrow(() -> new IllegalStateException(
         "Task with Id " + taskId + " does not exist within this goal within this project."
     ));
@@ -160,14 +135,8 @@ public class TaskService {
 
     if (goalIdChange != null && !Objects.equals(goalId, goalIdChange)) {
       // throw an exception if the goalIdChange (so the new goal id) does not exist
-      try {
-        Optional<Goal> goal = goalService.getGoal(projectId, goalIdChange);
-      } catch (IllegalStateException e) {
-        throw e;
-      }
+      Goal newGoal = goalService.getGoal(projectId, goalIdChange);
 
-      Goal oldGoal = goalService.getGoal(projectId, goalId).get();
-      Goal newGoal = goalService.getGoal(projectId, goalIdChange).get();
       if (!Objects.equals(oldGoal.getProjectId(), newGoal.getProjectId())) {
         throw new IllegalStateException("You can only switch a task to another goal of the same project. " +
             "Switching a task to a goal of another project is not allowed.");
@@ -184,7 +153,7 @@ public class TaskService {
 
   public List<Long> getStudentsOfTask(Long projectId, Long goalId, Long taskId) {
     // throw an exception if the task of the studentTasks does not exist
-    Task task = this.getTask(projectId, goalId, taskId).get();
+    Task task = this.getTask(projectId, goalId, taskId);
     List<StudentTask> studentTasks = studentTaskRepository.findAllByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
     List<Long> studentIds = new ArrayList<>();
     for(StudentTask studentTask : studentTasks) {
@@ -205,7 +174,7 @@ public class TaskService {
   }
 
   public void addStudentToTask(Long projectId, Long goalId, Long taskId, Long studentId) {
-    Task task = this.getTask(projectId, goalId, taskId).get();
+    Task task = this.getTask(projectId, goalId, taskId);
     Student student = this.getStudent(studentId);
     StudentTask studentTask = new StudentTask(studentId, taskId, projectId, goalId);
     studentTaskRepository.save(studentTask);
@@ -229,11 +198,6 @@ public class TaskService {
   public Student getStudent(Long studentId) {
     String url = studentGroupService + "api/students/" + studentId;
     RestTemplate restTemplate = restTemplateBuilder.build();
-    try {
-      Student student = restTemplate.getForObject(url, Student.class);
-      return student;
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    return restTemplate.getForObject(url, Student.class);
   }
 }

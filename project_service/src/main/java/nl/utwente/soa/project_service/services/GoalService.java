@@ -29,26 +29,16 @@ public class GoalService {
   }
 
   public List<Goal> getGoals(Long projectId) {
-    // throw an exception if the project of the goals does not exist
-    try {
-      Optional<Project> project = projectService.getProject(projectId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Project project = projectService.getProject(projectId);
     return goalRepository.findAllByProjectId(projectId);
   }
 
-  public Optional<Goal> getGoal(Long projectId, Long goalId) {
+  public Goal getGoal(Long projectId, Long goalId) {
     Goal goal = goalRepository.findGoalByProjectIdAndGoalId(projectId, goalId).orElseThrow(() -> new IllegalStateException(
         "Goal with Id " + goalId + " does not exist within this project."
     ));
-    // throw an exception if the project of the goal does not exist
-    try {
-      Optional<Project> project = projectService.getProject(projectId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
-    return goalRepository.findGoalByProjectIdAndGoalId(projectId, goalId);
+    Project project = projectService.getProject(projectId);
+    return goal;
   }
 
   public void addNewGoal(Long projectId, Goal goal) {
@@ -62,11 +52,8 @@ public class GoalService {
           "the POST request: projectId, goalId, id");
       // The value of the DB id actually doesn't matter, since it is overwritten by the sequence_generator
     }
-    // throw an exception if the project of the to-be-created goal does not exist
-    try {
-      Optional<Project> project = projectService.getProject(projectId);
-    } catch (IllegalStateException e) {
-      throw e;
+    {
+      Project project = projectService.getProject(projectId);
     }
     // throw an exception if either the goalId or name of the goal is already used within this project
     List<Goal> goalsWithProjectId = goalRepository.findAllByProjectId(projectId);
@@ -81,7 +68,7 @@ public class GoalService {
     }
     // throw an exception if the goal deadline is created with a date later than the project deadline
     Date goalDeadline = goal.getDeadline();
-    Project project = projectService.getProject(projectId).get();
+    Project project = projectService.getProject(projectId);
     Date projectDeadline = project.getDeadline();
     if (goalDeadline.after(projectDeadline)) {
       throw new IllegalStateException("The goal deadline cannot be later than the project deadline!");
@@ -98,12 +85,7 @@ public class GoalService {
     Goal goal = goalRepository.findGoalByProjectIdAndGoalId(projectId, goalId).orElseThrow(() -> new IllegalStateException(
         "Goal with Id " + goalId + " does not exist within this project."
     ));
-    // throw an exception if the project of the goal does not exist
-    try {
-      Optional<Project> project = projectService.getProject(projectId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Project project = projectService.getProject(projectId);
     goalRepository.deleteGoalByProjectIdAndGoalId(projectId, goalId);
     // also delete all tasks corresponding to this goal
     taskRepository.deleteAllByProjectIdAndGoalId(projectId, goalId);
@@ -111,12 +93,7 @@ public class GoalService {
 
   @Transactional
   public void deleteGoals(Long projectId) {
-    // throw an exception if the project of the goal does not exist
-    try {
-      Optional<Project> project = projectService.getProject(projectId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Project project = projectService.getProject(projectId);
     // delete all goals of a project
     goalRepository.deleteAllByProjectId(projectId);
     // also delete all tasks of a project
@@ -129,12 +106,7 @@ public class GoalService {
     Goal goal = goalRepository.findGoalByProjectIdAndGoalId(projectId, goalId).orElseThrow(() -> new IllegalStateException(
         "Goal with id " + goalId + " does not exist within this project"
     ));
-    // throw an exception if the project of the goal does not exist
-    try {
-      Optional<Project> project = projectService.getProject(projectId);
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    Project project = projectService.getProject(projectId);
 
     if (name != null && name.length() > 0 && !Objects.equals(goal.getName(), name)) {
       // throw an exception if the name of the goal is already used within this project
@@ -153,7 +125,7 @@ public class GoalService {
 
     if (deadline != null && !Objects.equals(goal.getDeadline(), deadline)) {
       // throw an exception if the goal deadline is updated to a date later than the project deadline
-      Project project = projectService.getProject(projectId).get();
+      Project project_check = projectService.getProject(projectId);
       Date projectDeadline = project.getDeadline();
       if (deadline.after(projectDeadline)) {
         throw new IllegalStateException("The goal deadline cannot be later than the project deadline!");

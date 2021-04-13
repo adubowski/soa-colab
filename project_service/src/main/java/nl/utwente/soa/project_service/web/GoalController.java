@@ -34,20 +34,17 @@ public class GoalController {
   }
 
   @GetMapping("{goalId}")
-  public Optional<Goal> getGoal(@PathVariable("projectId") Long projectId,
-                                @PathVariable("goalId") Long goalId) {
+  public Goal getGoal(@PathVariable("projectId") Long projectId, @PathVariable("goalId") Long goalId) {
     return goalService.getGoal(projectId, goalId);
   }
 
   @PostMapping
-  public void createNewGoal(@PathVariable("projectId") Long projectId,
-                            @RequestBody Goal goal) {
+  public void createNewGoal(@PathVariable("projectId") Long projectId, @RequestBody Goal goal) {
     goalService.addNewGoal(projectId, goal);
   }
 
   @DeleteMapping("{goalId}")
-  public void deleteGoal(@PathVariable("projectId") Long projectId,
-                         @PathVariable("goalId") Long goalId) {
+  public void deleteGoal(@PathVariable("projectId") Long projectId, @PathVariable("goalId") Long goalId) {
     goalService.deleteGoal(projectId, goalId);
   }
 

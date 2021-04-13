@@ -36,11 +36,12 @@ public class ProjectService {
     return projectRepository.findAll();
   }
 
-  public Optional<Project> getProject(Long projectId) {
-    if (!projectRepository.existsById(projectId)) {
+  public Project getProject(Long projectId) {
+    Optional<Project> project = projectRepository.findById(projectId);
+    if (project.isEmpty()) {
       throw new IllegalStateException("Project with Id " + projectId + " does not exist.");
     } else {
-      return projectRepository.findById(projectId);
+      return project.get();
     }
   }
 
@@ -48,14 +49,13 @@ public class ProjectService {
     // throw an exception if not all required fields are filled in
     if (project.getStudentGroupID() == null || project.getName() == null ||
         project.getDescription() == null || project.getDeadline() == null) {
-      throw new IllegalStateException("The following fields cannot be null: studentGroupID, " +
+      throw new IllegalStateException("The following fields of the Project body cannot be null: studentGroupID, " +
           "name, description, deadline");
     }
     // throw an exception if an id is specified in the body of the POST request (they should be created by the server)
     if (project.getId() != null) {
-      throw new IllegalStateException("Please remove the following fields from the body of " +
-          "the POST request: id");
-      // The value of the DB id actually doesn't matter, since it is overwritten by the sequence_generator
+      throw new IllegalStateException("Please remove the following fields from the body of the POST request: id");
+      // The value of the DB id is redundant, since it is overwritten by the sequence_generator
     }
     // throw an exception if the studentGroupId of the to-be created project does not exist
     try {
@@ -64,7 +64,8 @@ public class ProjectService {
       // see if the client group id can be fetched from the StudentGroupService
       Long groupId = this.getStudentGroup(clientGroupId).getId();
     } catch (IllegalStateException e) {
-      throw e;
+      e.printStackTrace();
+      throw new IllegalStateException("Invalid studentGroupID provided, studentGroup with that ID does not exist");
     }
     projectRepository.save(project);
   }
@@ -111,13 +112,8 @@ public class ProjectService {
 
   public StudentGroup getStudentGroup(Long studentGroupId) {
     String url = studentGroupService + "/api/group/" + studentGroupId;
-    RestTemplate restTemplate = restTemplateBuilder.build(); //errorHandler(new RestTemplateResponseErrorHandler()).build();
-    try {
-      StudentGroup studentGroup = restTemplate.getForObject(url, StudentGroup.class);
-      return studentGroup;
-    } catch (IllegalStateException e) {
-      throw e;
-    }
+    RestTemplate restTemplate = restTemplateBuilder.build();
+    return restTemplate.getForObject(url, StudentGroup.class);
   }
 
 }
