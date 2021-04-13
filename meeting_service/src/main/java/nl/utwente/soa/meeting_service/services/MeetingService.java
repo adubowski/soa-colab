@@ -216,7 +216,19 @@ public class MeetingService {
     // throw an exception if the goal of the meeting does not exist
     Goal goal = this.getGoal(projectId, goalId);
     if (goal == null) {
-      throw new IllegalStateException("Requested goal with goalId " + goalId + " for project with projectId" + projectId);
+      throw new IllegalStateException("Requested goal with goalId " + goalId +
+              " for project with projectId" + projectId + " does not exist");
+    } else {
+      return true;
+    }
+  }
+
+  public boolean checkTaskExists(Long projectId, Long goalId, Long taskId) {
+    // throw an exception if the task of the meeting does not exist
+    Task task = this.getTask(projectId, goalId, taskId);
+    if (task == null) {
+      throw new IllegalStateException("Requested task with taskId " + taskId +
+              " for goal with goalId " + goalId + " for project with projectId" + projectId + " does not exist");
     } else {
       return true;
     }
