@@ -36,5 +36,7 @@ spec:
           value: 192.168.1.217:5432/meetings
         - name: ACTIVEMQ_URL
           value: activemq-service
+        - name: PROJECT_SERVICE_URL
+          value: project-service-service
         ports:
         - containerPort: 8080
