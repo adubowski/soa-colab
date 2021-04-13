@@ -5,7 +5,7 @@ metadata:
   labels:
     app: meeting-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 8080
     name: meeting-service-service
@@ -19,7 +19,7 @@ kind: Deployment
 metadata:
   name: meeting-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: meeting-service
