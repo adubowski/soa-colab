@@ -70,4 +70,31 @@ public class TaskController {
                          @RequestParam(required = false) Boolean completed) {
     taskService.updateTask(projectId, currentGoalId, taskId, name, description, goalId, weight, completed);
   }
+
+  /*
+  The following operations are about students ASSIGNED to a task
+   */
+
+  @GetMapping("{taskId}/students")
+  public List<Long> getStudentsOfTask(@PathVariable("projectId") Long projectId,
+                                      @PathVariable("goalId") Long goalId,
+                                      @PathVariable("taskId") Long taskId) {
+    return taskService.getStudentsOfTask(projectId, goalId, taskId);
+  }
+
+  @PostMapping("{taskId}/students")
+  public void addStudentToTask(@PathVariable("projectId") Long projectId,
+                               @PathVariable("goalId")Long goalId,
+                               @PathVariable("taskId") Long taskId,
+                               @RequestBody Long studentId) {
+    taskService.addStudentToTask(projectId, goalId, taskId, studentId);
+  }
+
+  @DeleteMapping("{taskId}/students/{studentId}")
+  public void deleteStudentFromTask(@PathVariable("projectId") Long projectId,
+                                    @PathVariable("goalId") Long goalId,
+                                    @PathVariable("taskId") Long taskId,
+                                    @PathVariable("studentId") Long studentId) {
+    taskService.deleteStudentFromTask(projectId, goalId, taskId, studentId);
+  }
 }

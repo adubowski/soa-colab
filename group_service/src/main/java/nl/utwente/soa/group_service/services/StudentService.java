@@ -1,5 +1,6 @@
 package nl.utwente.soa.group_service.services;
 
+import nl.utwente.soa.group_service.model.MemberRepository;
 import nl.utwente.soa.group_service.model.Student;
 import nl.utwente.soa.group_service.model.StudentGroupRepository;
 import nl.utwente.soa.group_service.model.StudentRepository;
@@ -18,28 +19,17 @@ public class StudentService {
 
   private final StudentRepository studentRepository;
   private final StudentGroupRepository studentGroupRepository;
+  private final MemberRepository memberRepository;
 
   @Autowired
-  public StudentService(StudentRepository studentRepository, StudentGroupRepository studentGroupRepository) {
+  public StudentService(StudentRepository studentRepository, StudentGroupRepository studentGroupRepository, MemberRepository memberRepository) {
     this.studentRepository = studentRepository;
     this.studentGroupRepository = studentGroupRepository;
+    this.memberRepository = memberRepository;
   }
 
   public List<Student> getStudents() {
     return studentRepository.findAll();
-  }
-
-  public void assignStudentToGroup(Long studentId, Long groupId) {
-    Optional<Student> optionalStudent = studentRepository.findById(studentId);
-    if (!studentGroupRepository.existsById(groupId)) {
-      throw new IllegalStateException("Group with id " + groupId + " does not exist.");
-    }
-    if (optionalStudent.isPresent()) {
-      Student student = optionalStudent.get();
-      student.setGroupId(groupId);
-    } else {
-      throw new IllegalStateException("Student with id " + studentId + " does not exist.");
-    }
   }
 
   public void addNewStudent(Student student) {
@@ -54,13 +44,14 @@ public class StudentService {
   public void deleteStudent(Long id) {
     if (studentRepository.existsById(id)) {
       studentRepository.deleteById(id);
+      memberRepository.deleteAllByStudentId(id);
     } else {
       throw new IllegalStateException("student with id " + id + " does not exist");
     }
   }
 
   @Transactional
-  public void updateStudent(Long studentId, String name, String email, Long groupId) {
+  public void updateStudent(Long studentId, String name, String email) {
     Student student = studentRepository.findById(studentId).orElseThrow(() ->
         new IllegalStateException("No student with that Id!")
     );
@@ -74,9 +65,6 @@ public class StudentService {
         throw new IllegalStateException("Email taken!");
       }
       student.setEmail(email);
-    }
-    if (groupId != null && !Objects.equals(student.getGroupId(), groupId)) {
-      student.setGroupId(groupId);
     }
   }
 

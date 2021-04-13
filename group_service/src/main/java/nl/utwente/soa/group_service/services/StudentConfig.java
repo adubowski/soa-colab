@@ -15,8 +15,7 @@ public class StudentConfig {
     return args -> {
       Student adam = new Student(
           "Adam",
-          "adam@gmail.com",
-          1L
+          "adam@gmail.com"
       );
 
       Student matthijs = new Student(

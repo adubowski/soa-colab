@@ -1,24 +1,36 @@
 package nl.utwente.soa.project_service.services;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.transaction.Transactional;
+import nl.utwente.soa.project_service.access.StudentTaskRepository;
 import nl.utwente.soa.project_service.access.TaskRepository;
 import nl.utwente.soa.project_service.model.Goal;
+import nl.utwente.soa.project_service.model.Student;
+import nl.utwente.soa.project_service.model.StudentTask;
 import nl.utwente.soa.project_service.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TaskService {
 
   private final TaskRepository taskRepository;
+  private final StudentTaskRepository studentTaskRepository;
   private final GoalService goalService;
+  @Value("${service.group_service}")
+  private String studentGroupService;
 
   @Autowired
-  public TaskService(TaskRepository taskRepository, GoalService goalService) {
+  public TaskService(TaskRepository taskRepository, StudentTaskRepository studentTaskRepository, GoalService goalService) {
     this.taskRepository = taskRepository;
+    this.studentTaskRepository = studentTaskRepository;
     this.goalService = goalService;
   }
 
@@ -94,6 +106,8 @@ public class TaskService {
         "Task with Id " + taskId + " does not exist within this goal within this project."
     ));
     taskRepository.deleteTaskByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
+    // also delete every assignment of this task to a student
+    studentTaskRepository.deleteAllByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
   }
 
   @Transactional
@@ -105,6 +119,8 @@ public class TaskService {
       throw e;
     }
     taskRepository.deleteAllByProjectIdAndGoalId(projectId, goalId);
+    // also delete every assignment of "all tasks of this goal" to a student
+    studentTaskRepository.deleteAllByProjectIdAndGoalId(projectId, goalId);
   }
 
   @Transactional
@@ -162,4 +178,62 @@ public class TaskService {
 
   }
 
+  /*
+  The following operations are about students assigned to a task
+   */
+
+  public List<Long> getStudentsOfTask(Long projectId, Long goalId, Long taskId) {
+    // throw an exception if the task of the studentTasks does not exist
+    Task task = this.getTask(projectId, goalId, taskId).get();
+    List<StudentTask> studentTasks = studentTaskRepository.findAllByProjectIdAndGoalIdAndTaskId(projectId, goalId, taskId);
+    List<Long> studentIds = new ArrayList<>();
+    for(StudentTask studentTask : studentTasks) {
+      studentIds.add(studentTask.getStudentId());
+    }
+    return studentIds;
+  }
+
+  public List<Long> getTasksOfStudent(Long projectId, Long studentId) {
+    // throw an exception if the student of the studentTasks does not exist
+    Student student = this.getStudent(studentId);
+    List<StudentTask> studentTasks = studentTaskRepository.findAllByProjectIdAndStudentId(projectId, studentId);
+    List<Long> taskIds = new ArrayList<>();
+    for(StudentTask studentTask : studentTasks) {
+      taskIds.add(studentTask.getTaskId());
+    }
+    return taskIds;
+  }
+
+  public void addStudentToTask(Long projectId, Long goalId, Long taskId, Long studentId) {
+    Task task = this.getTask(projectId, goalId, taskId).get();
+    Student student = this.getStudent(studentId);
+    StudentTask studentTask = new StudentTask(studentId, taskId, projectId, goalId);
+    studentTaskRepository.save(studentTask);
+  }
+
+  @Transactional
+  public void deleteStudentFromTask(Long projectId, Long goalId, Long taskId, Long studentId) {
+    Student student = this.getStudent(studentId);
+    StudentTask studentTask = studentTaskRepository.findStudentTaskByProjectIdAndGoalIdAndStudentIdAndTaskId(
+        projectId, goalId, studentId, taskId
+    ).orElseThrow(() -> new IllegalStateException(
+        "Student with Id " + studentId + " is not assigned to this task"
+    ));
+    studentTaskRepository.deleteStudentTaskByProjectIdAndGoalIdAndStudentIdAndTaskId(projectId, goalId, studentId, taskId);
+  }
+
+  // Get information from studentGroupService (Sync Communication)
+  @Autowired
+  private RestTemplateBuilder restTemplateBuilder;
+
+  public Student getStudent(Long studentId) {
+    String url = studentGroupService + "api/students/" + studentId;
+    RestTemplate restTemplate = restTemplateBuilder.build();
+    try {
+      Student student = restTemplate.getForObject(url, Student.class);
+      return student;
+    } catch (IllegalStateException e) {
+      throw e;
+    }
+  }
 }

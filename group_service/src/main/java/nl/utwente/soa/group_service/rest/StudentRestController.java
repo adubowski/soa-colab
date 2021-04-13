@@ -44,9 +44,8 @@ public class StudentRestController {
   public void updateStudent(
       @PathVariable("StudentId") Long studentId,
       @RequestParam(required = false) String name,
-      @RequestParam(required = false) String email,
-      @RequestParam(required = false) Long groupId) {
-    studentService.updateStudent(studentId, name, email, groupId);
+      @RequestParam(required = false) String email) {
+    studentService.updateStudent(studentId, name, email);
   }
 
 }
