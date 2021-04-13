@@ -5,7 +5,7 @@ metadata:
   labels:
     app: group-service
 spec:
-  type: NodePort
+  type: NodePort //Replace NodePorts with LoadBalancers!
   ports:
   - port: 8080
     name: group-service-service
