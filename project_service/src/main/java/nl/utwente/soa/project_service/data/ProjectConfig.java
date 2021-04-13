@@ -14,7 +14,9 @@ public class ProjectConfig {
   CommandLineRunner projectCLRunner(ProjectRepository repository) {
     return args -> {
       Project project = new Project(1L, "MyProject", "This project is amazing!", new Date(), false);
-      repository.save(project);
+      if (repository.findProjectByName("MyProject").isEmpty()) {
+        repository.save(project);
+      }
     };
   }
 }

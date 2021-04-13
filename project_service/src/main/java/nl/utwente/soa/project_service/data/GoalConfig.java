@@ -24,7 +24,9 @@ public class GoalConfig {
       Goal goal1 = new Goal(1L, 1L, "goal1", "this is our first goal!", nextWeek, true);
       Goal goal2 = new Goal(2L, 1L, "goal2", "this is our second goal!", nextWeek, false);
       Goal goal3 = new Goal(3L, 1L,"goal3", "this is our third goal!", nextWeek, false);
-      repository.saveAll(List.of(goal1, goal2, goal3));
+      if (repository.findAllByProjectId(1L).size() == 0) {
+        repository.saveAll(List.of(goal1, goal2, goal3));
+      }
     };
   }
 

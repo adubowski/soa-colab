@@ -21,10 +21,9 @@ public class StudentGroupConfig {
       StudentGroup studentGroup2 = new StudentGroup(
           "group2"
       );
-
-      repository.saveAll(
-          List.of(studentGroup1, studentGroup2)
-      );
+      if (repository.findStudentGroupByName("group1").isEmpty()) {
+        repository.saveAll(List.of(studentGroup1, studentGroup2));
+      }
     };
   }
 }
