@@ -25,7 +25,7 @@ public class StudentGroupRestController {
   }
 
   @GetMapping(path = "{groupId}")
-  public Optional<StudentGroup> getGroupById(@PathVariable("groupId") Long id) {
+  public StudentGroup getGroupById(@PathVariable("groupId") Long id) {
     return studentGroupService.getGroupById(id);
   }
 

@@ -25,10 +25,10 @@ public class StudentRestController {
     return studentService.getStudents();
   }
 
-    @GetMapping(path= "{studentId}")
-    public Optional<Student> getStudentById(@PathVariable("studentId") Long id) {
-        return studentService.getStudentById(id);
-    }
+  @GetMapping(path= "{studentId}")
+  public Student getStudentById(@PathVariable("studentId") Long id) {
+      return studentService.getStudentById(id);
+  }
 
   @PostMapping
   public void registerNewStudent(@RequestBody Student student) {

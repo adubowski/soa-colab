@@ -34,11 +34,12 @@ public class StudentGroupService {
     return studentGroupRepository.findAll();
   }
 
-  public Optional<StudentGroup> getGroupById(Long id) {
-    if (!studentGroupRepository.existsById(id)) {
+  public StudentGroup getGroupById(Long id) {
+    Optional<StudentGroup> studentGroup = studentGroupRepository.findById(id);
+    if (studentGroup.isEmpty()) {
       throw new IllegalStateException("Group with Id " + id + " does not exist.");
     } else {
-      return studentGroupRepository.findById(id);
+      return studentGroup.get();
     }
   }
 
@@ -80,7 +81,7 @@ public class StudentGroupService {
 
   public List<Long> getStudentsOfGroup(Long groupId) {
     // throw an exception if the group of which the students are a member
-    StudentGroup studentGroup = this.getGroupById(groupId).get();
+    StudentGroup studentGroup = this.getGroupById(groupId);
     List<Member> members = memberRepository.findAllByStudentGroupId(groupId);
     List<Long> studentIds = new ArrayList<>();
     for(Member member : members) {
@@ -91,7 +92,7 @@ public class StudentGroupService {
 
   public List<Long> getGroupsOfStudents(Long studentId) {
     // throw an exception if the student of the studentTasks does not exist
-    Student student = studentService.getStudentById(studentId).get();
+    Student student = studentService.getStudentById(studentId);
     List<Member> members = memberRepository.findAllByStudentId(studentId);
     List<Long> studentGroupIds = new ArrayList<>();
     for(Member member : members) {
@@ -101,15 +102,15 @@ public class StudentGroupService {
   }
 
   public void addStudentToGroup(Long groupId, Long studentId) {
-    StudentGroup studentGroup = this.getGroupById(groupId).get();
-    Student student = studentService.getStudentById(studentId).get();
+    StudentGroup studentGroup = this.getGroupById(groupId);
+    Student student = studentService.getStudentById(studentId);
     Member member = new Member(studentId, groupId);
     memberRepository.save(member);
   }
 
   @Transactional
   public void deleteStudentFromGroup(Long groupId, Long studentId) {
-    Student student = studentService.getStudentById(studentId).get();
+    Student student = studentService.getStudentById(studentId);
     Member member = memberRepository.findMemberByStudentGroupIdAndStudentId(groupId, studentId)
         .orElseThrow(() -> new IllegalStateException(
         "Student with Id " + studentId + " is not assigned to this task"
