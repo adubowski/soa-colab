@@ -9,6 +9,13 @@ spec:
     - host: colab.nl
       http:
         paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service-service
+                port:
+                  number: 8080
           - path: /api/groups
             pathType: Prefix
             backend:
@@ -30,7 +37,7 @@ spec:
                 name: project-service-service
                 port:
                   number: 8080
-          - path: /api/projects/^[1-9][0-9]*$/goals/^[1-9][0-9]*$/meetings
+          - path: /api/projects/.*/goals/.*/meetings
             pathType: Prefix
             backend:
               service:

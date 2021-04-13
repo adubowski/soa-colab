@@ -1,0 +1,51 @@
+<html>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</html>
+<body>
+<a th:href="@{/projects}">Go back to Projects</a>
+<div class="container">
+    <h3>Goals</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th>deadline</th>
+            <th>inspect</th>
+            <th>add task</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="goal: ${goals}">
+            <td th:text="${goal.goalId}">id</td>
+            <td th:text="${goal.name}">name</td>
+            <td th:text="${goal.description}">description</td>
+            <td th:text="${goal.deadline}">deadline</td>
+            <td> <iframe th:src="@{goals/{goalId}/tasks(projectId=${goal.projectId},goalId=${goal.goalId})}"></iframe> </td>
+            <!--            <td><a th:href="@{addGoal}">Add Task</a></td>--> <td>Add Task</td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{addGoal}">Add Goal</a>
+</div>
+<!--<div class="container">-->
+<!--    <h3>Meetings</h3>-->
+<!--    <table class="table">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>id</th>-->
+<!--            <th>date</th>-->
+<!--            <th>join link</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="meeting: ${meetings}">-->
+<!--            <td th:text="${meeting.meetingId}">id</td>-->
+<!--            <td th:text="${meeting.date}">date</td>-->
+<!--            <td th:text="${meeting.joinLink}">join link</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+</body>
