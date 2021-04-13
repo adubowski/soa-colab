@@ -34,7 +34,7 @@ public class ProjectController {
   }
 
   @GetMapping(path = "{projectId}")
-  public Optional<Project> getProject(@PathVariable("projectId") Long projectId) {
+  public Project getProject(@PathVariable("projectId") Long projectId) {
     return projectService.getProject(projectId);
   }
 
