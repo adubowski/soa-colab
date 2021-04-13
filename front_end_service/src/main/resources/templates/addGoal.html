@@ -1,0 +1,21 @@
+<html>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</html>
+<body>
+<a th:href="@{/api/projects/{projectId}/goals(projectId=${project.id})}">Go back to Goals</a>
+<div class="container">
+    <form action="#" th:action="@{/api/projects/{projectId}/goals(projectId=${project.id})}" th:object="${goal}" method="post">
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="Name">
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <label for="name">Description</label>
+        <input type="text" th:field="*{description}" id="description" placeholder="Description">
+        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+        <label for="name">Deadline</label>
+        <input type="text" th:field="*{deadline}" id="deadline" placeholder="Deadline">
+        <span th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></span>
+
+        <input type="submit" value="Add Goal">
+    </form>
+</div>
+</body>
