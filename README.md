@@ -18,7 +18,7 @@ All Kubernetes configuration files can be found in the "kubernetes" folder.
 To avoid any issues, it is recommended to start the Apache ActiveMQ first, 
 by applying the activemq.yml configuration.
 Then, the services should be started in the following order: group-service, 
-project-service, meeting-service, join-link-service. Ingress can be started whenever.
+project-service, meeting-service, join-link-service. Ingress can be started at the end to ensure all services are found.
 
 If you want to test the ingress functionality, please set up your /etc/hosts file with colab.nl as the host, 
 and the ip address assigned to you by ingress. Otherwise, you need to check the IP address of each of the services.
