@@ -20,6 +20,8 @@ public class FrontEndService {
 
   @Value("${service.project_service}")
   private String projectService;
+//  @Value("${service.meeting_service}")
+//  private String meetingService;
 
   @Autowired
   public FrontEndService() {

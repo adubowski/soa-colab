@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping(path = "/")
 public class FrontEndController {
 
   private final FrontEndService frontEndService;
 
-  private final String projectPath = "api/projects";
+//  Only the projects frontend is kind of implemented for now
+  private final String projectPath = "projects";
 
   @Autowired
   public FrontEndController(FrontEndService frontEndService) {
@@ -32,6 +35,7 @@ public class FrontEndController {
   @GetMapping(projectPath + "/{projectId}/goals")
   public String overviewGoals(@PathVariable("projectId") Long projectId, Model model) {
     model.addAttribute("goals", frontEndService.getGoalsOfProject(projectId));
+//    model.addAttribute("meetings", frontEndService.getMeetingsOfProject(projectId));
     return "overviewGoals";
   }
 
