@@ -5,7 +5,7 @@ metadata:
   labels:
     app: join-link-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 8080
     name: join-link-service-service
@@ -19,7 +19,7 @@ kind: Deployment
 metadata:
   name: join-link-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: join-link-service
