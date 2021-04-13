@@ -18,7 +18,8 @@ All Kubernetes configuration files can be found in the "kubernetes" folder.
 To avoid any issues, it is recommended to start the Apache ActiveMQ first, 
 by applying the activemq.yml configuration.
 Then, the services should be started in the following order: group-service, 
-project-service, meeting-service, join-link-service. Ingress can be started at the end to ensure all services are found.
+project-service, meeting-service, join-link-service, frontend service. 
+Ingress can be started at the end to ensure all services are found.
 
 If you want to test the ingress functionality, please set up your /etc/hosts file with colab.nl as the host, 
 and the ip address assigned to you by ingress. Otherwise, you need to check the IP address of each of the services.
@@ -32,3 +33,6 @@ The following message queues are used in the project:
 - joinLinkQueue
 It is not required to set them up since ActiveMQ silently configures required queues when needed.
 Inspecting the message queues is possible if you run `minikube service activemq-service`  
+  
+To test (some of) the endpoints with Postman, you can use the Postman collection appended in this repository. 
+It works on the host colab.nl

@@ -38,5 +38,9 @@ spec:
           value: activemq-service
         - name: PROJECT_SERVICE_URL
           value: project-service-service
+        - name: PROJECT_SERVICE_PORT
+          value: "8080"
+        - name: APP_PORT
+          value: "8080"
         ports:
         - containerPort: 8080

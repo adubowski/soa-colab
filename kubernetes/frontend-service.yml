@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service-service
+  labels:
+    app: frontend-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    name: frontend-service-service
+    targetPort: 8080
+    nodePort: 32700
+  selector:
+    app: frontend-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-service
+  template:
+    metadata:
+      labels:
+        app: frontend-service
+    spec:
+      containers:
+      - name: frontend-service
+        image: s1871242/frontend-service
+        env:
+        - name: GROUP_SERVICE_URL
+          value: group-service-service
+        - name: GROUP_SERVICE_PORT
+          value: "8080"
+        - name: PROJECT_SERVICE_URL
+          value: project-service-service
+        - name: PROJECT_SERVICE_PORT
+          value: "8080"
+        - name: MEETING_SERVICE_URL
+          value: meeting-service-service
+        - name: MEETING_SERVICE_PORT
+          value: "8080"
+        - name: APP_PORT
+          value: "8080"
+        ports:
+        - containerPort: 8080
